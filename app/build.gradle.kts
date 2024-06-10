@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.than0s.mydiary"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -49,9 +49,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildFeatures{
-        viewBinding = true
-    }
 }
 
 dependencies {
@@ -75,6 +72,9 @@ dependencies {
     /* Extra dependencies */
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("androidx.compose.material:material-icons-extended:1.6.7")
 }
 
 // Allow references to generated code

@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.ui.theme
+ package dev.than0s.mydiary.ui.theme
 
 import android.app.Activity
 import android.os.Build
