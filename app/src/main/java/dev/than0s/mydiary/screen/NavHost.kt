@@ -62,7 +62,7 @@ class NavHost : ComponentActivity() {
             ) {
                 NavHost(navController = navController, startDestination = "Diary") {
                     composable(route = "Diary") {
-                        Diary()
+//                        Diary()
                         mutableState.value = "Diary"
                     }
                     composable(route = "Calendar") {

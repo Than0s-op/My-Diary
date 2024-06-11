@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -26,23 +25,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.util.Calendar
+import java.util.Date
 
-@Preview(showSystemUi = true)
 @Composable
-fun Diary() {
-    val list = getList()
-
+fun Diary(list: List<Note>) {
     Scaffold(
         floatingActionButton = { FloatingButton() },
     ) { paddingValue ->
         LazyColumn(
             content = {
-                items(items = list,
-                    key = {
-                        it.uid
-                    }) { item ->
+                items(items = list, key = { it.id }) { item ->
                     Item(note = item)
                 }
             },
@@ -69,11 +63,8 @@ fun Item(note: Note) {
                 .padding(horizontal = 10.dp, vertical = 6.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Column {
-                Text(text = note.date.date)
-                Text(text = note.date.month)
-                Text(text = note.date.year)
-            }
+
+            DateShower(calendar = getCalendar(note.date))
 
             Divider(
                 color = Color.Gray,
@@ -83,8 +74,8 @@ fun Item(note: Note) {
             )
 
             Column {
-                Image(imageVector = note.emoji, contentDescription = "")
-                Text(text = note.note)
+                Image(imageVector = note.emoji, contentDescription = "Emoji")
+                Text(text = note.description)
             }
         }
     }
@@ -92,151 +83,29 @@ fun Item(note: Note) {
 
 @Composable
 fun FloatingButton() {
-    FloatingActionButton(
-        onClick = { onClick() },
-    ) {
+    FloatingActionButton(onClick = { onClick() }) {
         Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
 
-fun getList(): ArrayList<Note> {
-    val list = ArrayList<Note>()
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    list.add(
-        Note(
-            Date("12", "Jan", "2024"),
-            Icons.Rounded.Star,
-            "Hello this than0s, nice to met you. How are you, I felling happy to me you"
-        )
-    )
-    return list
+@Composable
+fun DateShower(calendar: Calendar) {
+    Column {
+        calendar.let {
+            Text(text = it.get(Calendar.YEAR).toString())
+            Text(text = it.get(Calendar.MONTH).toString())
+            Text(text = it.get(Calendar.DAY_OF_MONTH).toString())
+        }
+    }
+}
+
+fun getCalendar(date: Date): Calendar {
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    return calendar
 }
 
 fun onClick() {
+
 
 }
