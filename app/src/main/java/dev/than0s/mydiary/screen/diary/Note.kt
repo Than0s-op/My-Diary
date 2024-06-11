@@ -9,7 +9,7 @@ import java.util.UUID
 data class Note(
     @DocumentId val id:String = "",
     @ServerTimestamp val date: Date = Date(),
-    val user:String = "",
+    val userID:String = "",
     val title:String = "",
     val emoji: ImageVector,
     val description: String = "",
