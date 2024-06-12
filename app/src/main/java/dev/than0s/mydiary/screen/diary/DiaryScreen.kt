@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import java.util.Calendar
 import java.util.Date
@@ -108,4 +109,10 @@ fun getCalendar(date: Date): Calendar {
 fun onClick() {
 
 
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun DiaryScreenPreview() {
+    Diary(listOf(Note(), Note()))
 }

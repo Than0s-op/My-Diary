@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import dev.than0s.mydiary.screen.diary.DateShower
@@ -51,4 +52,10 @@ fun TextField(placeHolder: String, modifier: Modifier, fontSize: TextUnit) {
         ),
         textStyle = TextStyle.Default.copy(fontSize = fontSize)
     )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun EditNoteScreenPreview(){
+    Note(note = Note())
 }
