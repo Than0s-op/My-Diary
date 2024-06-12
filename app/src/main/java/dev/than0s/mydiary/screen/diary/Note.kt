@@ -10,7 +10,7 @@ import java.util.Date
 data class Note(
     @DocumentId val id: String = "",
     @ServerTimestamp val date: Date = Date(),
-    val userID: String = "",
+    val userId: String = "",
     val title: String = "",
     val emoji: ImageVector = Icons.Rounded.SentimentNeutral,
     val description: String = "",
