@@ -27,11 +27,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.util.Calendar
 import java.util.Date
 
 @Composable
-fun Diary(list: List<Note>) {
+fun DiaryScreen(viewModel: DiaryViewModel) {
+    val notes = viewModel.notes.collectAsStateWithLifecycle(emptyList())
+    DiaryScreenContent(notes.value)
+}
+
+@Composable
+fun DiaryScreenContent(list: List<Note>) {
     Scaffold(
         floatingActionButton = { FloatingButton() },
     ) { paddingValue ->
@@ -114,5 +121,5 @@ fun onClick() {
 @Preview(showSystemUi = true)
 @Composable
 fun DiaryScreenPreview() {
-    Diary(listOf(Note(), Note()))
+    DiaryScreenContent(listOf(Note(), Note()))
 }

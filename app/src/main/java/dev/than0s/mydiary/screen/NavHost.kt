@@ -3,8 +3,6 @@ package dev.than0s.mydiary.screen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
@@ -34,8 +32,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.than0s.mydiary.model.service.imple.StorageServiceImple
 import dev.than0s.mydiary.screen.calendar.Calendar
-import dev.than0s.mydiary.screen.diary.Diary
+import dev.than0s.mydiary.screen.diary.DiaryScreen
+import dev.than0s.mydiary.screen.diary.DiaryViewModel
 import dev.than0s.mydiary.screen.insights.Insights
 import dev.than0s.mydiary.screen.settings.Settings
 
@@ -62,7 +62,9 @@ class NavHost : ComponentActivity() {
             ) {
                 NavHost(navController = navController, startDestination = "Diary") {
                     composable(route = "Diary") {
-//                        Diary()
+                        val storageServiceImple = StorageServiceImple()
+                        val diaryViewModel = DiaryViewModel(storageServiceImple)
+                        DiaryScreen(viewModel = diaryViewModel)
                         mutableState.value = "Diary"
                     }
                     composable(route = "Calendar") {
