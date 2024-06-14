@@ -32,6 +32,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import dev.than0s.mydiary.model.service.imple.AccountServiceImple
 import dev.than0s.mydiary.model.service.imple.StorageServiceImple
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
@@ -62,8 +64,11 @@ class NavHost : ComponentActivity() {
             ) {
                 NavHost(navController = navController, startDestination = "Diary") {
                     composable(route = "Diary") {
-                        val storageServiceImple = StorageServiceImple()
+                        val firebaseAuth = FirebaseAuth.getInstance()
+                        val storageServiceImple = StorageServiceImple(firebaseAuth)
                         val diaryViewModel = DiaryViewModel(storageServiceImple)
+                        val accountService = AccountServiceImple(firebaseAuth)
+
                         DiaryScreen(viewModel = diaryViewModel)
                         mutableState.value = "Diary"
                     }

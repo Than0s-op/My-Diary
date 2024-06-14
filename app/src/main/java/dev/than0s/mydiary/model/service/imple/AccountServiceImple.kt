@@ -4,7 +4,9 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import dev.than0s.mydiary.model.service.AccountService
 import dev.than0s.mydiary.screen.settings.User
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 class AccountServiceImple(private val auth: FirebaseAuth) : AccountService {
@@ -13,7 +15,14 @@ class AccountServiceImple(private val auth: FirebaseAuth) : AccountService {
     override val hasUser: Boolean
         get() = auth.currentUser != null
     override val currentUser: Flow<User>
-        get() = TODO("Not yet implemented")
+        get() = callbackFlow {
+            val listener =
+                FirebaseAuth.AuthStateListener { auth ->
+                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
+                }
+            auth.addAuthStateListener(listener)
+            awaitClose { auth.removeAuthStateListener(listener) }
+        }
 
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()

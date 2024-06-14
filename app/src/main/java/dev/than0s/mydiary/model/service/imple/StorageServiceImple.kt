@@ -10,11 +10,11 @@ import dev.than0s.mydiary.screen.diary.Note
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 
-class StorageServiceImple : StorageService {
+class StorageServiceImple(private val auth: FirebaseAuth) : StorageService {
     private val store = Firebase.firestore
     override val notes: Flow<List<Note>>
         get() = store.collection(NOTE_COLLECTION)
-            .whereEqualTo(USER_ID_FIELD, FirebaseAuth.getInstance().currentUser!!.uid)
+            .whereEqualTo(USER_ID_FIELD, auth.currentUser!!.uid)
             .dataObjects()
 
     override suspend fun save(note: Note) {
