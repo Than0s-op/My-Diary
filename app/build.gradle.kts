@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
-    implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,7 +77,10 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation ("androidx.compose.material:material-icons-extended:1.6.7")
+    implementation("androidx.compose.material:material-icons-extended:1.6.7")
+
+    // flow collect
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
 }
 
 // Allow references to generated code

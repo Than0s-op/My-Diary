@@ -14,7 +14,7 @@ class StorageServiceImple(private val auth: FirebaseAuth) : StorageService {
     private val store = Firebase.firestore
     override val notes: Flow<List<Note>>
         get() = store.collection(NOTE_COLLECTION)
-            .whereEqualTo(USER_ID_FIELD, auth.currentUser!!.uid)
+            .whereEqualTo(USER_ID_FIELD, auth.currentUser?.uid)
             .dataObjects()
 
     override suspend fun save(note: Note) {

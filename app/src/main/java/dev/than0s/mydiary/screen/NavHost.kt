@@ -67,8 +67,6 @@ class NavHost : ComponentActivity() {
                         val firebaseAuth = FirebaseAuth.getInstance()
                         val storageServiceImple = StorageServiceImple(firebaseAuth)
                         val diaryViewModel = DiaryViewModel(storageServiceImple)
-                        val accountService = AccountServiceImple(firebaseAuth)
-
                         DiaryScreen(viewModel = diaryViewModel)
                         mutableState.value = "Diary"
                     }
