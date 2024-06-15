@@ -1,6 +1,7 @@
 package dev.than0s.mydiary.screen.diary
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -49,7 +50,7 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
         LazyColumn(
             content = {
                 items(items = list, key = { it.id }) { item ->
-                    Item(note = item)
+                    Item(note = item, openScreen = openScreen)
                 }
             },
             modifier = Modifier
@@ -61,14 +62,16 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
 }
 
 @Composable
-fun Item(note: Note) {
+fun Item(note: Note, openScreen: (String) -> Unit) {
     val emojis = Icons.Rounded.let {
         listOf(it.SentimentDissatisfied, it.SentimentNeutral, it.SentimentSatisfied)
     }
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
+        modifier = Modifier.clickable { openScreen("$EDIT_NOTE_SCREEN/${note.id}") }
     ) {
 
         Row(
@@ -98,7 +101,7 @@ fun Item(note: Note) {
 
 @Composable
 fun FloatingButton(openScreen: (String) -> Unit) {
-    FloatingActionButton(onClick = { openScreen(EDIT_NOTE_SCREEN) }) {
+    FloatingActionButton(onClick = { openScreen("$EDIT_NOTE_SCREEN/0") }) {
         Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
@@ -123,5 +126,5 @@ fun getCalendar(date: Date): Calendar {
 @Preview(showSystemUi = true)
 @Composable
 fun DiaryScreenPreview() {
-    DiaryScreenContent(listOf(Note()), {})
+    DiaryScreenContent(listOf(Note())) {}
 }

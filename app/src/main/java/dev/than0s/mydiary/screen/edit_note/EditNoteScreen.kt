@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.SentimentNeutral
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -74,7 +74,7 @@ fun EditNoteContent(
 @Composable
 fun FloatingButton(onDoneClick: () -> Unit) {
     FloatingActionButton(onClick = { onDoneClick() }) {
-        Icon(Icons.Filled.Add, "Floating action button.")
+        Icon(Icons.Rounded.Save, "Floating action button.")
     }
 }
 

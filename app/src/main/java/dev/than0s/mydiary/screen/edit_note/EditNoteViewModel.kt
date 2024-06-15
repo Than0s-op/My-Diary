@@ -1,23 +1,29 @@
 package dev.than0s.mydiary.screen.edit_note
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
+import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import dev.than0s.mydiary.screen.diary.Note
 import java.util.Date
 
 class EditNoteViewModel(
-    noteId: String?,
     private val toast: (String) -> Unit,
-    private val storageService: StorageService
+    private val storageService: StorageService,
+    savedStateHandle: SavedStateHandle
 ) :
     MyDiaryViewModel() {
     val note = mutableStateOf(Note())
 
     init {
-        noteId?.let {
+        val taskId = savedStateHandle.get<String>(ID)
+        println("ID: $taskId")
+        taskId?.let {
             launchCatching(errorMassage = toast) {
-                note.value = storageService.getTask(noteId) ?: Note()
+                storageService.getTask(taskId)?.let {
+                    note.value = it
+                }
             }
         }
     }

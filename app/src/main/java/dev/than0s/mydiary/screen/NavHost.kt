@@ -30,11 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
+import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.model.service.imple.StorageServiceImple
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
@@ -47,6 +51,7 @@ import dev.than0s.mydiary.screen.settings.Settings
 class NavHost : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             App()
         }
@@ -87,14 +92,20 @@ class NavHost : ComponentActivity() {
                         Settings()
                         mutableState.value = "Settings"
                     }
-                    composable(route = EDIT_NOTE_SCREEN) {
-
+                    composable(
+                        route = "$EDIT_NOTE_SCREEN/{$ID}",
+                        arguments = listOf(
+                            navArgument(ID) {
+                                type = NavType.StringType
+                            }
+                        )
+                    ) {
                         val editNoteViewModel = EditNoteViewModel(
-                            null,
                             { message ->
                                 Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
                             },
-                            storageServiceImple
+                            storageServiceImple,
+                            savedStateHandle = it.savedStateHandle
                         )
                         EditNote(editNoteViewModel) { navController.popBackStack() }
                         mutableState.value = "Edit Note"
