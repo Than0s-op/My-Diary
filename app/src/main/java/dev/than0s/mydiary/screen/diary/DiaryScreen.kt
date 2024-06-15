@@ -14,6 +14,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.SentimentDissatisfied
+import androidx.compose.material.icons.rounded.SentimentNeutral
+import androidx.compose.material.icons.rounded.SentimentSatisfied
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -23,25 +26,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import java.util.Calendar
 import java.util.Date
 
 @Composable
-fun DiaryScreen(viewModel: DiaryViewModel) {
+fun DiaryScreen(viewModel: DiaryViewModel, openScreen: (String) -> Unit) {
     val notes = viewModel.notes.collectAsStateWithLifecycle(emptyList())
-    DiaryScreenContent(notes.value)
+    DiaryScreenContent(list = notes.value, openScreen = openScreen)
 }
 
 @Composable
-fun DiaryScreenContent(list: List<Note>) {
+fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
     Scaffold(
-        floatingActionButton = { FloatingButton() },
+        floatingActionButton = { FloatingButton(openScreen) },
     ) { paddingValue ->
         LazyColumn(
             content = {
@@ -59,6 +62,9 @@ fun DiaryScreenContent(list: List<Note>) {
 
 @Composable
 fun Item(note: Note) {
+    val emojis = Icons.Rounded.let {
+        listOf(it.SentimentDissatisfied, it.SentimentNeutral, it.SentimentSatisfied)
+    }
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -83,7 +89,7 @@ fun Item(note: Note) {
             )
 
             Column {
-                Image(imageVector = note.emoji, contentDescription = "Emoji")
+                Image(imageVector = emojis[note.emoji], contentDescription = "Emoji")
                 Text(text = note.description)
             }
         }
@@ -91,8 +97,8 @@ fun Item(note: Note) {
 }
 
 @Composable
-fun FloatingButton() {
-    FloatingActionButton(onClick = { onClick() }) {
+fun FloatingButton(openScreen: (String) -> Unit) {
+    FloatingActionButton(onClick = { openScreen(EDIT_NOTE_SCREEN) }) {
         Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
@@ -114,13 +120,8 @@ fun getCalendar(date: Date): Calendar {
     return calendar
 }
 
-fun onClick() {
-
-
-}
-
 @Preview(showSystemUi = true)
 @Composable
 fun DiaryScreenPreview() {
-    DiaryScreenContent(listOf(Note(), Note()))
+    DiaryScreenContent(listOf(Note()), {})
 }

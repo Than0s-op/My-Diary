@@ -14,8 +14,6 @@ class DiaryViewModel(storageService:StorageService): MyDiaryViewModel() {
         viewModelScope.launch{
             val firebaseAuth = FirebaseAuth.getInstance()
             val accountService = AccountServiceImple(firebaseAuth)
-            println("ID: ${accountService.currentUserId}")
-            println("has: ${accountService.hasUser}")
             if(!accountService.hasUser) accountService.createAnonymousAccount()
         }
     }

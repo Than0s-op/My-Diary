@@ -1,6 +1,7 @@
 package dev.than0s.mydiary.screen
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
@@ -33,11 +34,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import dev.than0s.mydiary.model.service.imple.AccountServiceImple
+import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.model.service.imple.StorageServiceImple
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.diary.DiaryViewModel
+import dev.than0s.mydiary.screen.edit_note.EditNote
+import dev.than0s.mydiary.screen.edit_note.EditNoteViewModel
 import dev.than0s.mydiary.screen.insights.Insights
 import dev.than0s.mydiary.screen.settings.Settings
 
@@ -54,6 +57,8 @@ class NavHost : ComponentActivity() {
     fun App() {
         val navController = rememberNavController()
         val mutableState = remember { mutableStateOf("Diary") }
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val storageServiceImple = StorageServiceImple(firebaseAuth)
         Scaffold(
             topBar = { AppBar(mutableState) },
             bottomBar = { NavigationBar(navController = navController) }
@@ -64,10 +69,10 @@ class NavHost : ComponentActivity() {
             ) {
                 NavHost(navController = navController, startDestination = "Diary") {
                     composable(route = "Diary") {
-                        val firebaseAuth = FirebaseAuth.getInstance()
-                        val storageServiceImple = StorageServiceImple(firebaseAuth)
                         val diaryViewModel = DiaryViewModel(storageServiceImple)
-                        DiaryScreen(viewModel = diaryViewModel)
+                        DiaryScreen(
+                            viewModel = diaryViewModel,
+                            openScreen = { route -> navController.navigate(route) })
                         mutableState.value = "Diary"
                     }
                     composable(route = "Calendar") {
@@ -81,6 +86,18 @@ class NavHost : ComponentActivity() {
                     composable(route = "Settings") {
                         Settings()
                         mutableState.value = "Settings"
+                    }
+                    composable(route = EDIT_NOTE_SCREEN) {
+
+                        val editNoteViewModel = EditNoteViewModel(
+                            null,
+                            { message ->
+                                Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
+                            },
+                            storageServiceImple
+                        )
+                        EditNote(editNoteViewModel) { navController.popBackStack() }
+                        mutableState.value = "Edit Note"
                     }
                 }
             }

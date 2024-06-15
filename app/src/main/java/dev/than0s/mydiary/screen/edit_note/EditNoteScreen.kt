@@ -4,14 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.SentimentNeutral
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -23,28 +27,69 @@ import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
 
 @Composable
-fun Note(note: Note) {
-    Column {
-        DateShower(calendar = getCalendar(note.date))
-        Image(imageVector = Icons.Rounded.SentimentNeutral, contentDescription = "Emoji")
-        TextField(placeHolder = "Title", modifier = Modifier.fillMaxWidth(), fontSize = 30.sp)
-        TextField(
-            placeHolder = "Diary entry",
+fun EditNote(viewModel: EditNoteViewModel, popUpScreen: () -> Unit) {
+    val note = viewModel.note.value
+    EditNoteContent(note = note,
+        onTitleChange = viewModel::onTitleChange,
+        onDescriptionChange = viewModel::onDescriptionChange,
+        onDoneClick = { viewModel.onDoneClick(popUpScreen) })
+}
+
+@Composable
+fun EditNoteContent(
+    note: Note,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onDoneClick: () -> Unit
+) {
+    Scaffold(floatingActionButton = { FloatingButton(onDoneClick) }) { paddingValue ->
+        Surface(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(),
-            fontSize = 20.sp
-        )
+                .padding(paddingValue)
+        ) {
+            Column {
+                DateShower(calendar = getCalendar(note.date))
+                Image(imageVector = Icons.Rounded.SentimentNeutral, contentDescription = "Emoji")
+                TextField(
+                    value = note.title,
+                    placeHolder = "Title",
+                    onValueChange = onTitleChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = 30.sp
+                )
+                TextField(
+                    value = note.description,
+                    placeHolder = "Diary entry",
+                    onValueChange = onDescriptionChange,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun TextField(placeHolder: String, modifier: Modifier, fontSize: TextUnit) {
-    val noteText = remember { mutableStateOf("") }
+fun FloatingButton(onDoneClick: () -> Unit) {
+    FloatingActionButton(onClick = { onDoneClick() }) {
+        Icon(Icons.Filled.Add, "Floating action button.")
+    }
+}
+
+@Composable
+fun TextField(
+    value: String,
+    placeHolder: String,
+    modifier: Modifier,
+    fontSize: TextUnit,
+    onValueChange: (String) -> Unit
+) {
     TextField(
-        value = noteText.value,
+        value = value,
         modifier = modifier,
-        onValueChange = { noteText.value = it },
+        onValueChange = { newValue -> onValueChange(newValue) },
         placeholder = { Text(placeHolder, fontSize = fontSize) },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Transparent,
@@ -56,6 +101,6 @@ fun TextField(placeHolder: String, modifier: Modifier, fontSize: TextUnit) {
 
 @Preview(showSystemUi = true)
 @Composable
-fun EditNoteScreenPreview(){
-    Note(note = Note())
+fun EditNoteScreenPreview() {
+    EditNoteContent(note = Note(), onTitleChange = {}, onDescriptionChange = {}, onDoneClick = {})
 }
