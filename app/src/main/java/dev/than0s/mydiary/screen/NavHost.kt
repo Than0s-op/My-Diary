@@ -100,6 +100,11 @@ class NavHost : ComponentActivity() {
                             }
                         )
                     ) {
+                        it.arguments?.let { bundle ->
+                            bundle.getString(ID)?.let { value ->
+                                it.savedStateHandle[ID] = value
+                            }
+                        }
                         val editNoteViewModel = EditNoteViewModel(
                             { message ->
                                 Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()

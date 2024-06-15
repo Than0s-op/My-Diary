@@ -18,7 +18,6 @@ class EditNoteViewModel(
 
     init {
         val taskId = savedStateHandle.get<String>(ID)
-        println("ID: $taskId")
         taskId?.let {
             launchCatching(errorMassage = toast) {
                 storageService.getTask(taskId)?.let {
