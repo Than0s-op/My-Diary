@@ -31,13 +31,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import java.util.Calendar
 import java.util.Date
 
 @Composable
-fun DiaryScreen(viewModel: DiaryViewModel, openScreen: (String) -> Unit) {
+fun DiaryScreen(viewModel: DiaryViewModel = hiltViewModel(), openScreen: (String) -> Unit) {
     val notes = viewModel.notes.collectAsStateWithLifecycle(emptyList())
     DiaryScreenContent(list = notes.value, openScreen = openScreen)
 }

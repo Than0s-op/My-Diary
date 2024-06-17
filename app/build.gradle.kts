@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
-    alias(libs.plugins.google.gms.google.services)
+    id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -43,12 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
 }
 
@@ -73,17 +68,36 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     /* Extra dependencies */
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
+    implementation("com.google.firebase:firebase-core:21.1.1")
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-android-compiler:2.47")
+
+    // navigation graph
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.compose.material:material-icons-extended:1.6.7")
 
-    // flow collect
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
+    // hit for navigation framework
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // extended material icons
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
+
+    // to collect flow
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    val lifecycle_version = "2.8.2"
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+
+    // coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
 }
 
 // Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

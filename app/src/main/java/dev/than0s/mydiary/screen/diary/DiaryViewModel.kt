@@ -1,20 +1,25 @@
 package dev.than0s.mydiary.screen.diary
 
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.model.service.imple.AccountServiceImple
-import dev.than0s.mydiary.model.service.imple.StorageServiceImple
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DiaryViewModel(storageService:StorageService): MyDiaryViewModel() {
+@HiltViewModel
+class DiaryViewModel @Inject constructor(
+    accountService: AccountServiceImple,
+    storageService: StorageService
+) : MyDiaryViewModel() {
     val notes = storageService.notes
-    init{
-        viewModelScope.launch{
-            val firebaseAuth = FirebaseAuth.getInstance()
-            val accountService = AccountServiceImple(firebaseAuth)
-            if(!accountService.hasUser) accountService.createAnonymousAccount()
+
+    init {
+        viewModelScope.launch {
+            if (!accountService.hasUser) {
+                accountService.createAnonymousAccount()
+            }
         }
     }
 }

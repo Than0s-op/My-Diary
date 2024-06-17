@@ -2,14 +2,16 @@ package dev.than0s.mydiary.screen.edit_note
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import dev.than0s.mydiary.screen.diary.Note
 import java.util.Date
+import javax.inject.Inject
 
-class EditNoteViewModel(
-    private val toast: (String) -> Unit,
+@HiltViewModel
+class EditNoteViewModel @Inject constructor(
     private val storageService: StorageService,
     savedStateHandle: SavedStateHandle
 ) :
@@ -19,7 +21,7 @@ class EditNoteViewModel(
     init {
         val taskId = savedStateHandle.get<String>(ID)
         taskId?.let {
-            launchCatching(errorMassage = toast) {
+            launchCatching(errorMassage = {}) {
                 storageService.getTask(taskId)?.let {
                     note.value = it
                 }
@@ -44,7 +46,7 @@ class EditNoteViewModel(
     }
 
     fun onDoneClick(popUpScreen: () -> Unit) {
-        launchCatching(errorMassage = toast) {
+        launchCatching(errorMassage = {}) {
             val editedNote = note.value
             if (editedNote.id.isBlank()) {
                 storageService.save(editedNote)

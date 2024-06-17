@@ -1,5 +1,6 @@
 package dev.than0s.mydiary.model.service
 
+import dagger.Provides
 import dev.than0s.mydiary.screen.diary.Note
 import kotlinx.coroutines.flow.Flow
 

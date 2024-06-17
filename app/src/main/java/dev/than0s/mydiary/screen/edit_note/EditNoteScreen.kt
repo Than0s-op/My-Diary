@@ -22,12 +22,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.than0s.mydiary.screen.diary.DateShower
 import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
 
 @Composable
-fun EditNote(viewModel: EditNoteViewModel, popUpScreen: () -> Unit) {
+fun EditNote(viewModel: EditNoteViewModel = hiltViewModel(), popUpScreen: () -> Unit) {
     val note = viewModel.note.value
     EditNoteContent(note = note,
         onTitleChange = viewModel::onTitleChange,

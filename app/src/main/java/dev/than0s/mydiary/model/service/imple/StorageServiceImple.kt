@@ -9,8 +9,10 @@ import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.screen.diary.Note
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class StorageServiceImple(private val auth: FirebaseAuth) : StorageService {
+
+class StorageServiceImple @Inject constructor(private val auth: FirebaseAuth) : StorageService {
     private val store = Firebase.firestore
     override val notes: Flow<List<Note>>
         get() = store.collection(NOTE_COLLECTION)
