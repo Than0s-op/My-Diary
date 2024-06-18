@@ -149,7 +149,10 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
                 Image(
                     imageVector = image,
                     contentDescription = image.name,
-                    modifier = Modifier.clickable { onEmojiChange(index) }
+                    modifier = Modifier.clickable {
+                        onEmojiChange(index)
+                        this@MaterialDialog.dialogState.hide()
+                    }
                 )
             }
         }
