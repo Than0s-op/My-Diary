@@ -7,6 +7,8 @@ import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import dev.than0s.mydiary.screen.diary.Note
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Date
 import javax.inject.Inject
 
@@ -37,8 +39,9 @@ class EditNoteViewModel @Inject constructor(
         note.value = note.value.copy(description = description)
     }
 
-    fun onDateChange(date: Long) {
-        note.value = note.value.copy(date = Date(date))
+    fun onDateChange(localDate: LocalDate) {
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        note.value = note.value.copy(date = date)
     }
 
     fun onEmojiChange(emoji: Int) {

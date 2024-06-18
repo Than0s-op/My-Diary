@@ -20,8 +20,8 @@ import androidx.compose.material.icons.rounded.SentimentNeutral
 import androidx.compose.material.icons.rounded.SentimentSatisfied
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -85,11 +85,11 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
 
             DateShower(calendar = getCalendar(note.date))
 
-            Divider(
-                color = Color.Gray,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxHeight()  //fill the max height
-                    .width(2.dp)
+                    .width(2.dp),
+                color = Color.Gray
             )
 
             Column {
@@ -108,8 +108,8 @@ fun FloatingButton(openScreen: (String) -> Unit) {
 }
 
 @Composable
-fun DateShower(calendar: Calendar) {
-    Column {
+fun DateShower(calendar: Calendar, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
         calendar.let {
             Text(text = it.get(Calendar.YEAR).toString())
             Text(text = it.get(Calendar.MONTH).toString())
