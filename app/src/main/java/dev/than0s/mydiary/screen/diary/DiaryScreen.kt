@@ -15,9 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.rounded.SentimentDissatisfied
-import androidx.compose.material.icons.rounded.SentimentNeutral
-import androidx.compose.material.icons.rounded.SentimentSatisfied
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -34,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
+import dev.than0s.mydiary.common.sentimentList
 import java.util.Calendar
 import java.util.Date
 
@@ -64,17 +62,12 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
 
 @Composable
 fun Item(note: Note, openScreen: (String) -> Unit) {
-    val emojis = Icons.Rounded.let {
-        listOf(it.SentimentDissatisfied, it.SentimentNeutral, it.SentimentSatisfied)
-    }
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
         modifier = Modifier.clickable { openScreen("$EDIT_NOTE_SCREEN/${note.id}") }
     ) {
-
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min) //intrinsic measurements
@@ -93,7 +86,10 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
             )
 
             Column {
-                Image(imageVector = emojis[note.emoji], contentDescription = "Emoji")
+                Image(
+                    imageVector = sentimentList[note.emoji],
+                    contentDescription = sentimentList[note.emoji].name
+                )
                 Text(text = note.description)
             }
         }

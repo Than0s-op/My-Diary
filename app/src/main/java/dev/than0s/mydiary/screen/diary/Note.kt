@@ -1,8 +1,5 @@
 package dev.than0s.mydiary.screen.diary
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.SentimentNeutral
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
@@ -13,6 +10,6 @@ data class Note(
     @ServerTimestamp val date: Date = Date(),
     val userId: String = FirebaseAuth.getInstance().currentUser!!.uid,
     val title: String = "",
-    val emoji: Int = 0,
+    val emoji: Int = 3,
     val description: String = "",
 )

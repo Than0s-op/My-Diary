@@ -3,12 +3,12 @@ package dev.than0s.mydiary.screen.edit_note
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.SentimentNeutral
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -28,6 +28,7 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import dev.than0s.mydiary.common.sentimentList
 import dev.than0s.mydiary.screen.diary.DateShower
 import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
@@ -42,6 +43,7 @@ fun EditNote(viewModel: EditNoteViewModel = hiltViewModel(), popUpScreen: () -> 
         onDescriptionChange = viewModel::onDescriptionChange,
         onDoneClick = { viewModel.onDoneClick(popUpScreen) },
         onDateChange = viewModel::onDateChange,
+        onEmojiChange = viewModel::onEmojiChange
     )
 }
 
@@ -52,21 +54,32 @@ fun EditNoteContent(
     onDescriptionChange: (String) -> Unit,
     onDoneClick: () -> Unit,
     onDateChange: (LocalDate) -> Unit,
+    onEmojiChange: (Int) -> Unit,
 ) {
+    val dateDialogState = rememberMaterialDialogState()
+    val emojiDialogState = rememberMaterialDialogState()
+
+    DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)
+    EmojiPicker(emojiDialogState = emojiDialogState, onEmojiChange = onEmojiChange)
+
     Scaffold(floatingActionButton = { FloatingButton(onDoneClick) }) { paddingValue ->
         Surface(
             modifier = Modifier
                 .padding(paddingValue)
         ) {
-            val dateDialogState = rememberMaterialDialogState()
-            DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)
             Column {
                 DateShower(calendar = getCalendar(note.date),
                     modifier = Modifier.clickable {
                         dateDialogState.show()
                     }
                 )
-                Image(imageVector = Icons.Rounded.SentimentNeutral, contentDescription = "Emoji")
+                Image(
+                    imageVector = sentimentList[note.emoji],
+                    contentDescription = sentimentList[note.emoji].name,
+                    modifier = Modifier.clickable {
+                        emojiDialogState.show()
+                    }
+                )
                 TextField(
                     value = note.title,
                     placeHolder = "Title",
@@ -124,6 +137,21 @@ fun DatePicker(dateDialogState: MaterialDialogState, onDateChange: (LocalDate) -
     }) {
         datepicker(initialDate = LocalDate.now(), title = "Pick a date") {
             onDateChange(it)
+        }
+    }
+}
+
+@Composable
+fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> Unit) {
+    MaterialDialog(dialogState = emojiDialogState) {
+        Row {
+            sentimentList.forEachIndexed { index, image ->
+                Image(
+                    imageVector = image,
+                    contentDescription = image.name,
+                    modifier = Modifier.clickable { onEmojiChange(index) }
+                )
+            }
         }
     }
 }

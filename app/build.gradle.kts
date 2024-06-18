@@ -102,6 +102,9 @@ dependencies {
     // datetime picker dialog
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
 
+    // core dialog
+    implementation("io.github.vanpra.compose-material-dialogs:core:0.9.0")
+
 }
 
 // Allow references to generated code
