@@ -35,8 +35,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import dev.than0s.mydiary.CREATE_ACCOUNT
+import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ID
+import dev.than0s.mydiary.SIGN_IN
+import dev.than0s.mydiary.SIGN_OUT
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
@@ -87,7 +91,9 @@ class NavHost : ComponentActivity() {
                         mutableState.value = "Insights"
                     }
                     composable(route = "Settings") {
-                        Settings()
+                        Settings(openScreen = { route ->
+                            navController.navigate(route)
+                        })
                         mutableState.value = "Settings"
                     }
                     composable(
@@ -102,6 +108,18 @@ class NavHost : ComponentActivity() {
                             navController.popBackStack()
                         }
                         mutableState.value = "Edit Note"
+                    }
+                    composable(route = SIGN_IN) {
+
+                    }
+                    composable(route = SIGN_OUT) {
+
+                    }
+                    composable(route = DELETE_ACCOUNT) {
+
+                    }
+                    composable(route = CREATE_ACCOUNT) {
+
                     }
                 }
             }
