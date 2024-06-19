@@ -34,7 +34,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ID
@@ -43,13 +42,16 @@ import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.insights.Insights
 import dev.than0s.mydiary.screen.settings.Settings
+import dev.than0s.mydiary.ui.theme.MyDiaryTheme
 
 @AndroidEntryPoint
 class NavHost : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App()
+            MyDiaryTheme {
+                App()
+            }
         }
     }
 
@@ -58,6 +60,7 @@ class NavHost : ComponentActivity() {
     fun App() {
         val navController = rememberNavController()
         val mutableState = remember { mutableStateOf("Diary") }
+
         Scaffold(
             topBar = { AppBar(mutableState) },
             bottomBar = { NavigationBar(navController = navController) }
@@ -95,11 +98,6 @@ class NavHost : ComponentActivity() {
                             }
                         )
                     ) {
-                        it.arguments?.let { bundle ->
-                            bundle.getString(ID)?.let { value ->
-                                it.savedStateHandle[ID] = value
-                            }
-                        }
                         EditNote {
                             navController.popBackStack()
                         }
@@ -129,6 +127,7 @@ class NavHost : ComponentActivity() {
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
+                        navController.popBackStack()
                         navController.navigate(route = item.first)
                     },
                 )

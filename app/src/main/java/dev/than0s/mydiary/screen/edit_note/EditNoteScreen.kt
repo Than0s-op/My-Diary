@@ -162,5 +162,5 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
 @Preview(showSystemUi = true)
 @Composable
 fun EditNoteScreenPreview() {
-//    EditNoteContent(note = Note(), onTitleChange = {}, onDescriptionChange = {}, onDoneClick = {}, onDateChange = {}, activity = LocalContext as AppCompatActivity)
+    EditNoteContent(note = Note(), onTitleChange = {}, onDescriptionChange = {}, onDoneClick = {}, onDateChange = {}, onEmojiChange = {})
 }
