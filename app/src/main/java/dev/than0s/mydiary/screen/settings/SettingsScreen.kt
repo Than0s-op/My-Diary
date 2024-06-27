@@ -21,29 +21,40 @@ import dev.than0s.mydiary.SIGN_OUT
 fun Settings(viewModel: SettingsViewModel = hiltViewModel(), openScreen: (String) -> Unit) {
     SettingsContent(
         isAnonymous = viewModel.accountService.isAnonymous,
+        onSignOutClick = viewModel::onSignOutClick,
+        onDeleteAccountClick = viewModel::onDeleteAccountMyClick,
         openScreen = openScreen
     )
 }
 
 @Composable
-fun SettingsContent(isAnonymous: Boolean, openScreen: (String) -> Unit) {
+fun SettingsContent(
+    isAnonymous: Boolean,
+    onSignOutClick: () -> Unit,
+    onDeleteAccountClick: () -> Unit,
+    openScreen: (String) -> Unit
+) {
     Column {
         if (isAnonymous) {
-            Option(CREATE_ACCOUNT, openScreen)
-            Option(SIGN_IN, openScreen)
+            Option(CREATE_ACCOUNT) {
+                openScreen(CREATE_ACCOUNT)
+            }
+            Option(SIGN_IN) {
+                openScreen(SIGN_IN)
+            }
         } else {
-            Option(SIGN_OUT, openScreen)
-            Option(DELETE_ACCOUNT, openScreen)
+            Option(SIGN_OUT, onSignOutClick)
+            Option(DELETE_ACCOUNT, onDeleteAccountClick)
         }
     }
 }
 
 @Composable
-fun Option(title: String, onClick: (String) -> Unit) {
+fun Option(title: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .clickable {
-                onClick(title)
+                onClick()
             }
             .fillMaxWidth()
     ) {
@@ -55,7 +66,7 @@ fun Option(title: String, onClick: (String) -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 fun SettingsPreview() {
-    SettingsContent(true, {})
+    SettingsContent(false, {}, {}, {})
 }
 
 const val GOOGLE_AUTH = "Google Auth"

@@ -43,6 +43,7 @@ import dev.than0s.mydiary.GOOGLE_AUTH_SCREEN
 import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_OUT
+import dev.than0s.mydiary.SPLASH_SCREEN
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
@@ -50,6 +51,7 @@ import dev.than0s.mydiary.screen.insights.Insights
 import dev.than0s.mydiary.screen.log_in.GoogleAuth
 import dev.than0s.mydiary.screen.settings.AuthDialog
 import dev.than0s.mydiary.screen.settings.Settings
+import dev.than0s.mydiary.screen.splash.SplashScreen
 import dev.than0s.mydiary.ui.theme.MyDiaryTheme
 
 @AndroidEntryPoint
@@ -77,7 +79,13 @@ class NavHost : ComponentActivity() {
                 modifier = Modifier
                     .padding(paddingValue)
             ) {
-                NavHost(navController = navController, startDestination = "Diary") {
+                NavHost(navController = navController, startDestination = SPLASH_SCREEN) {
+                    composable(route = SPLASH_SCREEN) {
+                        SplashScreen { route ->
+                            navController.popBackStack()
+                            navController.navigate(route)
+                        }
+                    }
                     composable(route = "Diary") {
                         DiaryScreen(
                             openScreen = { route ->
