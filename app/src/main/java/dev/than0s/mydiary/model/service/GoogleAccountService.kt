@@ -1,4 +1,8 @@
 package dev.than0s.mydiary.model.service
 
-interface GoogleAccountService {
+import android.content.Intent
+
+interface GoogleAccountService : AccountService {
+    suspend fun authenticate(data: Intent)
+    suspend fun linkAccount(data: Intent)
 }

@@ -38,6 +38,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
+import dev.than0s.mydiary.EMAIL_AUTH_SCREEN
+import dev.than0s.mydiary.GOOGLE_AUTH_SCREEN
 import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_OUT
@@ -45,6 +47,8 @@ import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.insights.Insights
+import dev.than0s.mydiary.screen.log_in.GoogleAuth
+import dev.than0s.mydiary.screen.settings.AuthDialog
 import dev.than0s.mydiary.screen.settings.Settings
 import dev.than0s.mydiary.ui.theme.MyDiaryTheme
 
@@ -110,15 +114,25 @@ class NavHost : ComponentActivity() {
                         mutableState.value = "Edit Note"
                     }
                     composable(route = SIGN_IN) {
+                        AuthDialog(openScreen = { route ->
+                            navController.navigate(route)
+                        })
+                    }
+                    composable(route = CREATE_ACCOUNT) {
+                        AuthDialog(openScreen = { route ->
+                            navController.navigate(route)
+                        })
+                    }
+                    composable(route = GOOGLE_AUTH_SCREEN) {
+                        GoogleAuth()
+                    }
+                    composable(route = EMAIL_AUTH_SCREEN) {
 
                     }
                     composable(route = SIGN_OUT) {
 
                     }
                     composable(route = DELETE_ACCOUNT) {
-
-                    }
-                    composable(route = CREATE_ACCOUNT) {
 
                     }
                 }

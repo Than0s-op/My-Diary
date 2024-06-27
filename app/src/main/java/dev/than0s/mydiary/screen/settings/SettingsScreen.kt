@@ -20,7 +20,7 @@ import dev.than0s.mydiary.SIGN_OUT
 @Composable
 fun Settings(viewModel: SettingsViewModel = hiltViewModel(), openScreen: (String) -> Unit) {
     SettingsContent(
-        isAnonymous = viewModel.accountService.hasUser,
+        isAnonymous = viewModel.accountService.isAnonymous,
         openScreen = openScreen
     )
 }
@@ -42,7 +42,9 @@ fun SettingsContent(isAnonymous: Boolean, openScreen: (String) -> Unit) {
 fun Option(title: String, onClick: (String) -> Unit) {
     Card(
         modifier = Modifier
-            .clickable { onClick(title) }
+            .clickable {
+                onClick(title)
+            }
             .fillMaxWidth()
     ) {
         Text(text = title)
@@ -55,3 +57,6 @@ fun Option(title: String, onClick: (String) -> Unit) {
 fun SettingsPreview() {
     SettingsContent(true, {})
 }
+
+const val GOOGLE_AUTH = "Google Auth"
+const val EMAIL_AUTH = "Email Auth"

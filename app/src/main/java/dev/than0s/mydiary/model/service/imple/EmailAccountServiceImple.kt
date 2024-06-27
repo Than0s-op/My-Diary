@@ -2,7 +2,6 @@ package dev.than0s.mydiary.model.service.imple
 
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import dev.than0s.mydiary.model.service.AccountService
 import dev.than0s.mydiary.model.service.EmailAccountService
 import dev.than0s.mydiary.screen.settings.User
 import kotlinx.coroutines.channels.awaitClose
@@ -11,15 +10,15 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AccountServiceImple @Inject constructor(private val auth: FirebaseAuth) : AccountService {
+class EmailAccountServiceImple @Inject constructor(private val auth: FirebaseAuth) :
+    EmailAccountService {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
-    override val isAnonymous:Boolean
+    override val isAnonymous: Boolean
         get() = auth.currentUser!!.isAnonymous
-
     override val currentUser: Flow<User>
         get() = callbackFlow {
             val listener =
@@ -30,8 +29,21 @@ class AccountServiceImple @Inject constructor(private val auth: FirebaseAuth) : 
             awaitClose { auth.removeAuthStateListener(listener) }
         }
 
+    override suspend fun authenticate(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    override suspend fun sendRecoveryEmail(email: String) {
+        auth.sendPasswordResetEmail(email).await()
+    }
+
     override suspend fun createAnonymousAccount() {
         auth.signInAnonymously().await()
+    }
+
+    override suspend fun linkAccount(email: String, password: String) {
+        val credential = EmailAuthProvider.getCredential(email, password)
+        auth.currentUser!!.linkWithCredential(credential).await()
     }
 
     override suspend fun deleteAccount() {

@@ -71,6 +71,8 @@ dependencies {
     /* Extra dependencies */
 
     implementation("com.google.firebase:firebase-core:21.1.1")
+    // google sign in
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.47")
