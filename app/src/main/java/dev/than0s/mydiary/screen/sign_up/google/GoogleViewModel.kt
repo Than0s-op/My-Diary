@@ -9,6 +9,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.than0s.mydiary.R
@@ -27,17 +28,20 @@ class GoogleViewModel @Inject constructor(
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    fun onResult(data: Intent, restartApp: () -> Unit) {
-        println("on result")
+    fun onResult(data: Intent, onError: (String) -> Unit, restartApp: () -> Unit) {
         viewModelScope.launch {
-            // may be will throw exception
-            googleAccountService.linkAccount(data)
-            restartApp()
+            try {
+                googleAccountService.linkAccount(data)
+                restartApp()
+            } catch (e: FirebaseAuthUserCollisionException) {
+                onError(e.message ?: "Account already present")
+            } catch (e: Exception) {
+                onError(e.message ?: "Unknown error")
+            }
         }
     }
 
     fun intentLauncher(launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
-        println("Intent launcher")
         viewModelScope.launch {
             val signInIntentSender = signIn()
             launcher.launch(

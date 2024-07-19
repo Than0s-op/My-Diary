@@ -18,7 +18,8 @@ class EmailAccountServiceImple @Inject constructor(private val auth: FirebaseAut
         get() = auth.currentUser != null
 
     override val isAnonymous: Boolean
-        get() = auth.currentUser!!.isAnonymous
+        get() = auth.currentUser?.isAnonymous ?: true
+
     override val currentUser: Flow<User>
         get() = callbackFlow {
             val listener =
