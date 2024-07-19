@@ -37,6 +37,7 @@ import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
+import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.EMAIL_AUTH_SCREEN
 import dev.than0s.mydiary.GOOGLE_AUTH_SCREEN
@@ -86,7 +87,7 @@ class NavHost : ComponentActivity() {
                             navController.navigate(route)
                         }
                     }
-                    composable(route = "Diary") {
+                    composable(route = DIARY_SCREEN) {
                         DiaryScreen(
                             openScreen = { route ->
                                 navController.navigate(route)
@@ -103,9 +104,17 @@ class NavHost : ComponentActivity() {
                         mutableState.value = "Insights"
                     }
                     composable(route = "Settings") {
-                        Settings(openScreen = { route ->
-                            navController.navigate(route)
-                        })
+                        Settings(
+                            openScreen = { route ->
+                                navController.navigate(route)
+                            },
+                            restartApp = { route ->
+                                navController.navigate(route) {
+                                    launchSingleTop = true
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        )
                         mutableState.value = "Settings"
                     }
                     composable(
@@ -153,7 +162,7 @@ class NavHost : ComponentActivity() {
     fun NavigationBar(navController: NavController) {
         var selectedItem by remember { mutableIntStateOf(0) }
         val items = listOf(
-            Pair("Diary", Icons.AutoMirrored.Rounded.MenuBook),
+            Pair(DIARY_SCREEN, Icons.AutoMirrored.Rounded.MenuBook),
             Pair("Calendar", Icons.Rounded.CalendarMonth),
             Pair("Insights", Icons.Rounded.Lightbulb),
             Pair("Settings", Icons.Rounded.Settings)

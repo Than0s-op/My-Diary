@@ -34,11 +34,13 @@ class GoogleAccountServiceImple @Inject constructor(
 
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
+
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
     override val isAnonymous:Boolean
         get() = auth.currentUser!!.isAnonymous
+
     override val currentUser: Flow<User>
         get() = callbackFlow {
             val listener =

@@ -11,13 +11,13 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val accountService: AccountService
 ) : MyDiaryViewModel() {
-
-    fun createAnonymousUser(onDone: () -> Unit) {
+    fun loadUser(onDone: () -> Unit) {
         if (!accountService.hasUser) {
             viewModelScope.launch {
                 accountService.createAnonymousAccount()
                 onDone()
             }
         }
+        else onDone()
     }
 }

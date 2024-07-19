@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.than0s.mydiary.R
+import dev.than0s.mydiary.SPLASH_SCREEN
 import dev.than0s.mydiary.model.service.GoogleAccountService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import kotlinx.coroutines.launch
@@ -26,9 +27,10 @@ class SignUpGoogleAuthViewModel @Inject constructor(
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    fun onResult(data: Intent) {
+    fun onResult(data: Intent, restartApp: (String) -> Unit) {
         viewModelScope.launch {
             googleAccountService.linkAccount(data)
+            restartApp(SPLASH_SCREEN)
         }
     }
 

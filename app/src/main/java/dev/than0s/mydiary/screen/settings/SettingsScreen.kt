@@ -18,12 +18,16 @@ import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_OUT
 
 @Composable
-fun Settings(viewModel: SettingsViewModel = hiltViewModel(), openScreen: (String) -> Unit) {
+fun Settings(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    openScreen: (String) -> Unit,
+    restartApp: (String) -> Unit
+) {
     SettingsContent(
         isAnonymous = viewModel.accountService.isAnonymous,
-        onSignOutClick = viewModel::onSignOutClick,
-        onDeleteAccountClick = viewModel::onDeleteAccountMyClick,
-        openScreen = openScreen
+        onSignOutClick = { viewModel.onSignOutClick(restartApp) },
+        onDeleteAccountClick = { viewModel.onDeleteAccountMyClick(restartApp) },
+        openScreen = openScreen,
     )
 }
 
@@ -32,7 +36,7 @@ fun SettingsContent(
     isAnonymous: Boolean,
     onSignOutClick: () -> Unit,
     onDeleteAccountClick: () -> Unit,
-    openScreen: (String) -> Unit
+    openScreen: (String) -> Unit,
 ) {
     Column {
         if (isAnonymous) {
@@ -68,6 +72,3 @@ fun Option(title: String, onClick: () -> Unit) {
 fun SettingsPreview() {
     SettingsContent(false, {}, {}, {})
 }
-
-const val GOOGLE_AUTH = "Google Auth"
-const val EMAIL_AUTH = "Email Auth"

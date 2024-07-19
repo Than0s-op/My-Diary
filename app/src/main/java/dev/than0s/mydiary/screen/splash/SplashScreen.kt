@@ -6,7 +6,7 @@ import dev.than0s.mydiary.DIARY_SCREEN
 
 @Composable
 fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), popAndOpen: (String) -> Unit) {
-    viewModel.createAnonymousUser {
+    viewModel.loadUser {
         popAndOpen(DIARY_SCREEN)
     }
 }

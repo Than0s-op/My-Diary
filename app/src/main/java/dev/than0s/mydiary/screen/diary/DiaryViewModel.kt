@@ -14,12 +14,4 @@ class DiaryViewModel @Inject constructor(
     storageService: StorageService
 ) : MyDiaryViewModel() {
     val notes = storageService.notes
-
-    init {
-        viewModelScope.launch {
-            if (!accountService.hasUser) {
-                accountService.createAnonymousAccount()
-            }
-        }
-    }
 }
