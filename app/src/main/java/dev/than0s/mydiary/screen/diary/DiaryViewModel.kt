@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
-    accountService: AccountServiceImple,
     storageService: StorageService
 ) : MyDiaryViewModel() {
     val notes = storageService.notes
