@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.than0s.mydiary.screen.log_in.GoogleAuthContent
 
 @Composable
 fun GoogleScreen(

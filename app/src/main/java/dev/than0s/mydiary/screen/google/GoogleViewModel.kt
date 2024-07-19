@@ -28,10 +28,23 @@ class GoogleViewModel @Inject constructor(
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    fun onResult(data: Intent, onError: (String) -> Unit, restartApp: () -> Unit) {
+    fun linkAccount(data: Intent, onError: (String) -> Unit, restartApp: () -> Unit) {
         viewModelScope.launch {
             try {
                 googleAccountService.linkAccount(data)
+                restartApp()
+            } catch (e: FirebaseAuthUserCollisionException) {
+                onError(e.message ?: "Account already present")
+            } catch (e: Exception) {
+                onError(e.message ?: "Unknown error")
+            }
+        }
+    }
+
+    fun authenticate(data: Intent, onError: (String) -> Unit, restartApp: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                googleAccountService.authenticate(data)
                 restartApp()
             } catch (e: FirebaseAuthUserCollisionException) {
                 onError(e.message ?: "Account already present")
