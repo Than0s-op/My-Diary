@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.than0s.mydiary.screen.sign_up.google.GoogleScreen
+import dev.than0s.mydiary.screen.google.GoogleScreen
 
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), restartApp: () -> Unit) {
@@ -70,7 +70,7 @@ private fun SignUpScreenContent(restartApp: () -> Unit) {
         }
     }
     if (showGoogleAuth) {
-        GoogleScreen(restartApp = restartApp)
+        GoogleScreen(restartApp = restartApp, isSignIn = false)
     }
 }
 

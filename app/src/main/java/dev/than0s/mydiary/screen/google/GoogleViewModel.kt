@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.screen.sign_up.google
+package dev.than0s.mydiary.screen.google
 
 import android.content.Context
 import android.content.Intent

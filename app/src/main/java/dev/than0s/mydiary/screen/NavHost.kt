@@ -37,7 +37,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import dev.than0s.mydiary.CALENDAR_SCREEN
-import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
@@ -45,14 +44,15 @@ import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.INSIGHTS_SCREEN
 import dev.than0s.mydiary.SETTING_SCREEN
 import dev.than0s.mydiary.SIGN_IN
-import dev.than0s.mydiary.SIGN_OUT
+import dev.than0s.mydiary.SIGN_IN_SCREEN
+import dev.than0s.mydiary.SIGN_UP_SCREEN
 import dev.than0s.mydiary.SPLASH_SCREEN
 import dev.than0s.mydiary.screen.calendar.Calendar
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.insights.Insights
-import dev.than0s.mydiary.screen.log_in.GoogleAuth
 import dev.than0s.mydiary.screen.settings.Settings
+import dev.than0s.mydiary.screen.sign_in.SignInScreen
 import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
 import dev.than0s.mydiary.ui.theme.MyDiaryTheme
@@ -127,11 +127,11 @@ class NavHost : ComponentActivity() {
                         EditNote(popUpScreen = navController::popBackStack)
                         mutableState.value = EDIT_NOTE_SCREEN
                     }
-                    composable(route = SIGN_IN) {
-                        SignUpScreen(restartApp = ::restartApp)
+                    composable(route = SIGN_IN_SCREEN) {
+                        SignInScreen(restartApp = ::restartApp)
                     }
-                    composable(route = DELETE_ACCOUNT) {
-
+                    composable(route = SIGN_UP_SCREEN) {
+                        SignInScreen(restartApp = ::restartApp)
                     }
                 }
             }

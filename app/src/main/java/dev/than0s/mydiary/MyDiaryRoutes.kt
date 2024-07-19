@@ -8,6 +8,8 @@ const val SPLASH_SCREEN = "Splash"
 const val SETTING_SCREEN = "Settings"
 const val CALENDAR_SCREEN = "Calendar"
 const val INSIGHTS_SCREEN = "Insights"
+const val SIGN_IN_SCREEN = "SignIn"
+const val SIGN_UP_SCREEN = "SignUp"
 
 const val SIGN_IN = "Sign In"
 const val CREATE_ACCOUNT = "Create Account"

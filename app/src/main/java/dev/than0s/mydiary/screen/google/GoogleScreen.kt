@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.screen.sign_up.google
+package dev.than0s.mydiary.screen.google
 
 import android.app.Activity
 import android.content.Intent
@@ -15,10 +15,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun GoogleScreen(
     viewModel: GoogleViewModel = hiltViewModel(),
-    restartApp: () -> Unit
+    restartApp: () -> Unit,
+    isSignIn: Boolean
 ) {
     GoogleScreenContent(
-        onResult = viewModel::onResult,
+        onResult = if (isSignIn) viewModel::authenticate else viewModel::linkAccount,
         restartApp = restartApp,
         intentLauncher = viewModel::intentLauncher
     )

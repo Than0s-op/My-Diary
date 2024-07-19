@@ -15,7 +15,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.SIGN_IN
+import dev.than0s.mydiary.SIGN_IN_SCREEN
 import dev.than0s.mydiary.SIGN_OUT
+import dev.than0s.mydiary.SIGN_UP_SCREEN
 
 @Composable
 fun Settings(
@@ -41,10 +43,10 @@ fun SettingsContent(
     Column {
         if (isAnonymous) {
             Option(CREATE_ACCOUNT) {
-                openScreen(CREATE_ACCOUNT)
+                openScreen(SIGN_UP_SCREEN)
             }
             Option(SIGN_IN) {
-                openScreen(SIGN_IN)
+                openScreen(SIGN_IN_SCREEN)
             }
         } else {
             Option(SIGN_OUT, onSignOutClick)

@@ -1,9 +1,9 @@
-package dev.than0s.mydiary.screen.log_in
+package dev.than0s.mydiary.screen.sign_in
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LogInViewModel @Inject constructor() : MyDiaryViewModel() {
+class SignInViewModel @Inject constructor() : MyDiaryViewModel() {
 }
