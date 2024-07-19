@@ -38,7 +38,7 @@ class GoogleAccountServiceImple @Inject constructor(
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
-    override val isAnonymous:Boolean
+    override val isAnonymous: Boolean
         get() = auth.currentUser!!.isAnonymous
 
     override val currentUser: Flow<User>
@@ -74,12 +74,6 @@ class GoogleAccountServiceImple @Inject constructor(
     }
 
     override suspend fun signOut() {
-        try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (e is CancellationException) throw e
-        }
+        auth.signOut()
     }
 }

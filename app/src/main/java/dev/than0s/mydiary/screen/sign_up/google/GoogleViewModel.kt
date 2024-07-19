@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.screen.sign_up
+package dev.than0s.mydiary.screen.sign_up.google
 
 import android.content.Context
 import android.content.Intent
@@ -21,20 +21,23 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
-class SignUpGoogleAuthViewModel @Inject constructor(
+class GoogleViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val oneTapClient: SignInClient,
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    fun onResult(data: Intent, restartApp: (String) -> Unit) {
+    fun onResult(data: Intent, restartApp: () -> Unit) {
+        println("on result")
         viewModelScope.launch {
+            // may be will throw exception
             googleAccountService.linkAccount(data)
-            restartApp(SPLASH_SCREEN)
+            restartApp()
         }
     }
 
-    fun logIn(launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
+    fun intentLauncher(launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
+        println("Intent launcher")
         viewModelScope.launch {
             val signInIntentSender = signIn()
             launcher.launch(
@@ -67,7 +70,7 @@ class SignUpGoogleAuthViewModel @Inject constructor(
                     .setServerClientId(context.getString(R.string.web_client_id))
                     .build()
             )
-            .setAutoSelectEnabled(true)
+            .setAutoSelectEnabled(false)
             .build()
     }
 }

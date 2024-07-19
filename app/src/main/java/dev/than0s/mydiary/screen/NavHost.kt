@@ -29,19 +29,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import dev.than0s.mydiary.CALENDAR_SCREEN
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
-import dev.than0s.mydiary.EMAIL_AUTH_SCREEN
-import dev.than0s.mydiary.GOOGLE_AUTH_SCREEN
 import dev.than0s.mydiary.ID
+import dev.than0s.mydiary.INSIGHTS_SCREEN
+import dev.than0s.mydiary.SETTING_SCREEN
 import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_OUT
 import dev.than0s.mydiary.SPLASH_SCREEN
@@ -50,13 +52,15 @@ import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.insights.Insights
 import dev.than0s.mydiary.screen.log_in.GoogleAuth
-import dev.than0s.mydiary.screen.settings.AuthDialog
 import dev.than0s.mydiary.screen.settings.Settings
+import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
 import dev.than0s.mydiary.ui.theme.MyDiaryTheme
 
 @AndroidEntryPoint
 class NavHost : ComponentActivity() {
+
+    private lateinit var navController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -69,8 +73,8 @@ class NavHost : ComponentActivity() {
     @Preview
     @Composable
     fun App() {
-        val navController = rememberNavController()
-        val mutableState = remember { mutableStateOf("Diary") }
+        navController = rememberNavController()
+        val mutableState = remember { mutableStateOf(DIARY_SCREEN) }
 
         Scaffold(
             topBar = { AppBar(mutableState) },
@@ -93,29 +97,24 @@ class NavHost : ComponentActivity() {
                                 navController.navigate(route)
                             }
                         )
-                        mutableState.value = "Diary"
+                        mutableState.value = DIARY_SCREEN
                     }
-                    composable(route = "Calendar") {
+                    composable(route = CALENDAR_SCREEN) {
                         Calendar()
-                        mutableState.value = "Calendar"
+                        mutableState.value = CALENDAR_SCREEN
                     }
-                    composable(route = "Insights") {
+                    composable(route = INSIGHTS_SCREEN) {
                         Insights()
-                        mutableState.value = "Insights"
+                        mutableState.value = INSIGHTS_SCREEN
                     }
-                    composable(route = "Settings") {
+                    composable(route = SETTING_SCREEN) {
                         Settings(
                             openScreen = { route ->
                                 navController.navigate(route)
                             },
-                            restartApp = { route ->
-                                navController.navigate(route) {
-                                    launchSingleTop = true
-                                    popUpTo(0) { inclusive = true }
-                                }
-                            }
+                            restartApp = ::restartApp
                         )
-                        mutableState.value = "Settings"
+                        mutableState.value = SETTING_SCREEN
                     }
                     composable(
                         route = "$EDIT_NOTE_SCREEN/{$ID}",
@@ -125,29 +124,11 @@ class NavHost : ComponentActivity() {
                             }
                         )
                     ) {
-                        EditNote {
-                            navController.popBackStack()
-                        }
-                        mutableState.value = "Edit Note"
+                        EditNote(popUpScreen = navController::popBackStack)
+                        mutableState.value = EDIT_NOTE_SCREEN
                     }
                     composable(route = SIGN_IN) {
-                        AuthDialog(openScreen = { route ->
-                            navController.navigate(route)
-                        })
-                    }
-                    composable(route = CREATE_ACCOUNT) {
-                        AuthDialog(openScreen = { route ->
-                            navController.navigate(route)
-                        })
-                    }
-                    composable(route = GOOGLE_AUTH_SCREEN) {
-                        GoogleAuth()
-                    }
-                    composable(route = EMAIL_AUTH_SCREEN) {
-
-                    }
-                    composable(route = SIGN_OUT) {
-
+                        SignUpScreen(restartApp = ::restartApp)
                     }
                     composable(route = DELETE_ACCOUNT) {
 
@@ -181,6 +162,13 @@ class NavHost : ComponentActivity() {
                     },
                 )
             }
+        }
+    }
+
+    private fun restartApp() {
+        navController.navigate(SPLASH_SCREEN) {
+            launchSingleTop = true
+            popUpTo(0) { inclusive = true }
         }
     }
 

@@ -14,11 +14,12 @@ import javax.inject.Inject
 class AccountServiceImple @Inject constructor(private val auth: FirebaseAuth) : AccountService {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
+
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
-    override val isAnonymous:Boolean
-        get() = auth.currentUser!!.isAnonymous
+    override val isAnonymous: Boolean
+        get() = auth.currentUser?.isAnonymous ?: true
 
     override val currentUser: Flow<User>
         get() = callbackFlow {

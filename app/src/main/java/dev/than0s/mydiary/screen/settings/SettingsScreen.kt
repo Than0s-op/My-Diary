@@ -21,10 +21,10 @@ import dev.than0s.mydiary.SIGN_OUT
 fun Settings(
     viewModel: SettingsViewModel = hiltViewModel(),
     openScreen: (String) -> Unit,
-    restartApp: (String) -> Unit
+    restartApp: () -> Unit
 ) {
     SettingsContent(
-        isAnonymous = viewModel.accountService.isAnonymous,
+        isAnonymous = viewModel.isAnonymous(),
         onSignOutClick = { viewModel.onSignOutClick(restartApp) },
         onDeleteAccountClick = { viewModel.onDeleteAccountMyClick(restartApp) },
         openScreen = openScreen,

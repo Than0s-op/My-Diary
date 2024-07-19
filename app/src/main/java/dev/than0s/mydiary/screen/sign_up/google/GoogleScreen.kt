@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.screen.sign_up
+package dev.than0s.mydiary.screen.sign_up.google
 
 import android.app.Activity
 import android.content.Intent
@@ -9,24 +9,25 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.than0s.mydiary.screen.log_in.GoogleAuthContent
 
 @Composable
-fun GoogleAuth(
-    viewModel: SignUpGoogleAuthViewModel = hiltViewModel(),
-    restartApp: (String) -> Unit
+fun GoogleScreen(
+    viewModel: GoogleViewModel = hiltViewModel(),
+    restartApp: () -> Unit
 ) {
-    GoogleAuthContent(
+    GoogleScreenContent(
         onResult = viewModel::onResult,
         restartApp = restartApp,
-        logIn = viewModel::logIn
+        intentLauncher = viewModel::intentLauncher
     )
 }
 
 @Composable
-fun GoogleAuthContent(
-    onResult: (Intent, (String) -> Unit) -> Unit,
-    restartApp: (String) -> Unit,
-    logIn: (ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) -> Unit
+fun GoogleScreenContent(
+    onResult: (Intent, () -> Unit) -> Unit,
+    restartApp: () -> Unit,
+    intentLauncher: (ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) -> Unit
 ) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -38,5 +39,5 @@ fun GoogleAuthContent(
             }
         }
     )
-    logIn(launcher)
+    intentLauncher(launcher)
 }

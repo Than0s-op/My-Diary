@@ -51,12 +51,6 @@ class EmailAccountServiceImple @Inject constructor(private val auth: FirebaseAut
     }
 
     override suspend fun signOut() {
-        if (auth.currentUser!!.isAnonymous) {
-            auth.currentUser!!.delete()
-        }
         auth.signOut()
-
-        // Sign the user back in anonymously.
-        createAnonymousAccount()
     }
 }

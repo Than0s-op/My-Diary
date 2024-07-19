@@ -10,19 +10,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    val accountService: GoogleAccountServiceImple
+    private val accountService: GoogleAccountServiceImple
 ) : MyDiaryViewModel() {
-    fun onDeleteAccountMyClick(restartApp: (String) -> Unit) {
+    fun isAnonymous(): Boolean {
+        return accountService.isAnonymous
+    }
+
+    fun onDeleteAccountMyClick(restartApp: () -> Unit) {
         viewModelScope.launch {
             accountService.deleteAccount()
-            restartApp(SPLASH_SCREEN)
+            restartApp()
         }
     }
 
-    fun onSignOutClick(restartApp: (String) -> Unit) {
+    fun onSignOutClick(restartApp: () -> Unit) {
         viewModelScope.launch {
             accountService.signOut()
-            restartApp(SPLASH_SCREEN)
+            restartApp()
         }
     }
 }
