@@ -149,7 +149,7 @@ private fun NavHostController.openScreen(screen: String) {
 }
 
 private fun NavHostController.popAndOpen(screen: String) {
-    navigateUp()
+    popBackStack()
     navigate(screen)
 }
 
