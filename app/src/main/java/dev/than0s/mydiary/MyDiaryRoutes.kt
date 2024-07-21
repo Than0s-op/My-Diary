@@ -6,8 +6,6 @@ const val EDIT_NOTE_SCREEN = "Edit"
 const val DIARY_SCREEN = "Diary"
 const val SPLASH_SCREEN = "Splash"
 const val SETTING_SCREEN = "Settings"
-const val CALENDAR_SCREEN = "Calendar"
-const val INSIGHTS_SCREEN = "Insights"
 const val SIGN_IN_SCREEN = "SignIn"
 const val SIGN_UP_SCREEN = "SignUp"
 
