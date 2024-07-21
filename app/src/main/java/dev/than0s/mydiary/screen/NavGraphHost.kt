@@ -125,7 +125,7 @@ private fun NavigationBar(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf(
         Pair(DIARY_SCREEN, Icons.AutoMirrored.Rounded.MenuBook),
-        Pair("Settings", Icons.Rounded.Settings)
+        Pair(SETTING_SCREEN, Icons.Rounded.Settings)
     )
 
     NavigationBar {
