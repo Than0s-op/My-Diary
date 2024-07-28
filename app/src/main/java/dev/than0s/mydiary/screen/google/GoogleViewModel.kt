@@ -16,6 +16,7 @@ import dev.than0s.mydiary.R
 import dev.than0s.mydiary.SPLASH_SCREEN
 import dev.than0s.mydiary.model.service.GoogleAccountService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
+import dev.than0s.mydiary.ui.theme.AppState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -30,11 +31,12 @@ class GoogleViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 googleAccountService.linkAccount(data)
+                AppState.snackbarHostState.showSnackbar("Sign Up Successfully")
                 restartApp()
             } catch (e: FirebaseAuthUserCollisionException) {
-//                onError(e.message ?: "Account already present")
+                AppState.snackbarHostState.showSnackbar(e.message ?: "Account already present")
             } catch (e: Exception) {
-//                onError(e.message ?: "Unknown error")
+                AppState.snackbarHostState.showSnackbar(e.message ?: "Unknown error")
             }
         }
     }
@@ -43,11 +45,12 @@ class GoogleViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 googleAccountService.authenticate(data)
+                AppState.snackbarHostState.showSnackbar("Sign In Successfully")
                 restartApp()
             } catch (e: FirebaseAuthUserCollisionException) {
-//                onError(e.message ?: "Account already present")
+                AppState.snackbarHostState.showSnackbar(e.message ?: "Account already present")
             } catch (e: Exception) {
-//                onError(e.message ?: "Unknown error")
+                AppState.snackbarHostState.showSnackbar(e.message ?: "Unknown error")
             }
         }
     }

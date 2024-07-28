@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -46,6 +48,7 @@ import dev.than0s.mydiary.screen.settings.Settings
 import dev.than0s.mydiary.screen.sign_in.SignInScreen
 import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
+import dev.than0s.mydiary.ui.theme.AppState
 
 
 @Composable
@@ -57,10 +60,12 @@ fun NavGraphHost() {
 private fun NavGraphHostContent() {
     val navController = rememberNavController()
     val appBarTitle = remember { mutableStateOf(DIARY_SCREEN) }
+    AppState.snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = { AppBar(appBarTitle) },
-        bottomBar = { NavigationBar(navController = navController) }
+        bottomBar = { NavigationBar(navController = navController) },
+        snackbarHost = { SnackbarHost(hostState = AppState.snackbarHostState) }
     ) { paddingValue ->
         Surface(
             modifier = Modifier
