@@ -2,6 +2,7 @@ package dev.than0s.mydiary.screen.splash
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.than0s.mydiary.AppState
 import dev.than0s.mydiary.model.service.AccountService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import kotlinx.coroutines.launch
@@ -13,11 +14,10 @@ class SplashViewModel @Inject constructor(
 ) : MyDiaryViewModel() {
     fun loadUser(onDone: () -> Unit) {
         if (!accountService.hasUser) {
-            viewModelScope.launch {
+            launchCatching(AppState.showSnackbar(viewModelScope)) {
                 accountService.createAnonymousAccount()
                 onDone()
             }
-        }
-        else onDone()
+        } else onDone()
     }
 }

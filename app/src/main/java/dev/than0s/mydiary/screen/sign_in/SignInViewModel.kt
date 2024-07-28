@@ -12,14 +12,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(private val emailAccountService: EmailAccountService) :
     MyDiaryViewModel() {
-
-    private val messageShower = { message: String ->
-        viewModelScope.launch {
-            AppState.snackbarHostState.showSnackbar(message)
-        }
-        Unit
-    }
-
     val signInCred = mutableStateOf(SignInCred())
 
     fun onEmailChange(email: String) {
@@ -31,13 +23,17 @@ class SignInViewModel @Inject constructor(private val emailAccountService: Email
     }
 
     fun onSignInClick(restartApp: () -> Unit) {
-        launchCatching(messageShower) {
-            emailAccountService.authenticate(
-                signInCred.value.email,
-                signInCred.value.password
-            )
-            AppState.snackbarHostState.showSnackbar("Sign In Successfully")
-            restartApp()
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            try {
+                emailAccountService.authenticate(
+                    signInCred.value.email,
+                    signInCred.value.password
+                )
+                AppState.snackbarHostState.showSnackbar("Sign In Successfully")
+                restartApp()
+            } catch (e: Exception) {
+                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+            }
         }
     }
 }

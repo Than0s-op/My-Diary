@@ -17,17 +17,25 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onDeleteAccountMyClick(restartApp: () -> Unit) {
-        viewModelScope.launch {
-            accountService.deleteAccount()
-            restartApp()
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            try {
+                accountService.deleteAccount()
+                restartApp()
+            } catch (e: Exception) {
+                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+            }
         }
     }
 
     fun onSignOutClick(restartApp: () -> Unit) {
-        viewModelScope.launch {
-            accountService.signOut()
-            AppState.snackbarHostState.showSnackbar("Sign Out Successfully")
-            restartApp()
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            try {
+                accountService.signOut()
+                AppState.snackbarHostState.showSnackbar("Sign Out Successfully")
+                restartApp()
+            } catch (e: Exception) {
+                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+            }
         }
     }
 }

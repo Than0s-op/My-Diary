@@ -19,5 +19,4 @@ open class MyDiaryViewModel : ViewModel() {
             },
             block = block
         )
-
 }

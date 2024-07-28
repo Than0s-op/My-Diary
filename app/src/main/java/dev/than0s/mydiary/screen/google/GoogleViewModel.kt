@@ -15,26 +15,27 @@ class GoogleViewModel @Inject constructor(
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    private val messageShower = { message: String ->
-        viewModelScope.launch {
-            AppState.snackbarHostState.showSnackbar(message)
-        }
-        Unit
-    }
-
     fun linkAccount(data: Intent, restartApp: () -> Unit) {
-        launchCatching(messageShower) {
-            googleAccountService.linkAccount(data)
-            AppState.snackbarHostState.showSnackbar("Sign Up Successfully")
-            restartApp()
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            try {
+                googleAccountService.linkAccount(data)
+                AppState.snackbarHostState.showSnackbar("Sign Up Successfully")
+                restartApp()
+            } catch (e: Exception) {
+                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+            }
         }
     }
 
     fun authenticate(data: Intent, restartApp: () -> Unit) {
-        launchCatching(messageShower) {
-            googleAccountService.authenticate(data)
-            AppState.snackbarHostState.showSnackbar("Sign In Successfully")
-            restartApp()
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            try {
+                googleAccountService.authenticate(data)
+                AppState.snackbarHostState.showSnackbar("Sign In Successfully")
+                restartApp()
+            } catch (e: Exception) {
+                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+            }
         }
     }
 }
