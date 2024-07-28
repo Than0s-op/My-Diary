@@ -3,8 +3,6 @@ package dev.than0s.mydiary.screen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
-import androidx.compose.material.icons.rounded.CalendarMonth
-import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -48,7 +45,7 @@ import dev.than0s.mydiary.screen.settings.Settings
 import dev.than0s.mydiary.screen.sign_in.SignInScreen
 import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
-import dev.than0s.mydiary.ui.theme.AppState
+import dev.than0s.mydiary.AppState
 
 
 @Composable
