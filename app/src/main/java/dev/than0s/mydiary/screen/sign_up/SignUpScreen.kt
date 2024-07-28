@@ -84,10 +84,10 @@ private fun SignUpScreenContent(
                 imageVector = Icons.Rounded.Facebook,
                 contentDescription = "Localized description",
             )
-        }
+        }add
     }
     if (showGoogleAuth) {
-        GoogleScreen(restartApp = restartApp, isSignIn = true)
+        GoogleScreen(restartApp = restartApp, isSignIn = false)
     }
 }
 
