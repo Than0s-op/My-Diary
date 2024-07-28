@@ -26,7 +26,7 @@ class GoogleViewModel @Inject constructor(
     private val googleAccountService: GoogleAccountService
 ) : MyDiaryViewModel() {
 
-    fun linkAccount(data: Intent,  restartApp: () -> Unit) {
+    fun linkAccount(data: Intent, restartApp: () -> Unit) {
         viewModelScope.launch {
             try {
                 googleAccountService.linkAccount(data)
@@ -51,17 +51,4 @@ class GoogleViewModel @Inject constructor(
             }
         }
     }
-
-//    fun intentLauncher(launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
-//        viewModelScope.launch {
-//            val signInIntentSender = signIn()
-//            launcher.launch(
-//                IntentSenderRequest.Builder(
-//                    signInIntentSender ?: return@launch
-//                ).build()
-//            )
-//        }
-//    }
-
-
 }

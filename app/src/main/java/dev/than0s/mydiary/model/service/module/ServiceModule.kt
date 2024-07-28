@@ -40,5 +40,4 @@ object signInClient {
     @Provides
     fun provideSignInClient(@ApplicationContext appContext: Context): SignInClient =
         Identity.getSignInClient(appContext)
-
 }
