@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.than0s.mydiary.SPLASH_SCREEN
 import dev.than0s.mydiary.model.service.imple.GoogleAccountServiceImple
 import dev.than0s.mydiary.screen.MyDiaryViewModel
+import dev.than0s.mydiary.ui.theme.AppState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ class SettingsViewModel @Inject constructor(
     fun onSignOutClick(restartApp: () -> Unit) {
         viewModelScope.launch {
             accountService.signOut()
+            AppState.snackbarHostState.showSnackbar("Sign Out Successfully")
             restartApp()
         }
     }

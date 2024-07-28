@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.than0s.mydiary.model.service.EmailAccountService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
 import dev.than0s.mydiary.screen.sign_in.SignInCred
+import dev.than0s.mydiary.ui.theme.AppState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class SignUpViewModel @Inject constructor(private val emailAccountService: Email
                 signInCred.value.email,
                 signInCred.value.password
             )
+            AppState.snackbarHostState.showSnackbar("Sign Up Successfully")
             restartApp()
         }
     }
