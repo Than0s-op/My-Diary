@@ -22,20 +22,30 @@ import dev.than0s.mydiary.screen.google.GoogleScreen
 
 @Composable
 fun SignInScreen(viewModel: SignInViewModel = hiltViewModel(), restartApp: () -> Unit) {
-    SignInScreenContent(restartApp = restartApp)
+    SignInScreenContent(
+        signInCred = viewModel.signInCred.value,
+        onEmailChange = viewModel::onEmailChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onSignInClick = viewModel::onSignInClick,
+        restartApp = restartApp,
+    )
 }
 
 @Composable
-private fun SignInScreenContent(restartApp: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+private fun SignInScreenContent(
+    signInCred: SignInCred,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: (() -> Unit) -> Unit,
+    restartApp: () -> Unit
+) {
     var showGoogleAuth by remember { mutableStateOf(false) }
     var passwordVisibility by remember { mutableStateOf(false) }
     Column {
         TextField(
-            value = email,
+            value = signInCred.email,
             onValueChange = { newValue ->
-                email = newValue
+                onEmailChange(newValue)
             },
             label = {
                 Text(emailPlaceHolder)
@@ -43,9 +53,9 @@ private fun SignInScreenContent(restartApp: () -> Unit) {
             singleLine = true
         )
         TextField(
-            value = password,
+            value = signInCred.password,
             onValueChange = { newValue ->
-                password = newValue
+                onPasswordChange(newValue)
             },
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             label = { Text(passwordPlaceHolder) },
@@ -62,7 +72,7 @@ private fun SignInScreenContent(restartApp: () -> Unit) {
             singleLine = true
         )
         ElevatedButton(onClick = {
-
+            onSignInClick(restartApp)
         }) {
             Text(signInLabel)
         }
@@ -83,7 +93,7 @@ private fun SignInScreenContent(restartApp: () -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 private fun SignInScreenPreview() {
-    SignInScreenContent({})
+    SignInScreenContent(SignInCred(), {}, {}, {}, {})
 }
 
 const val emailPlaceHolder = "Email"

@@ -71,40 +71,39 @@ dependencies {
 
     /* Extra dependencies */
 
-    implementation("com.google.firebase:firebase-core:21.1.1")
+    implementation(libs.firebase.core)
     // google sign in
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation(libs.play.services.auth)
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-android-compiler:2.47")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     // navigation graph
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
 
     // hit for navigation framework
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // extended material icons
-    implementation("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation(libs.androidx.material.icons.extended)
 
     // to collect flow
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-    val lifecycle_version = "2.8.2"
-
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // ViewModel utilities for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation(libs.kotlinx.coroutines.android)
 
     // datetime picker dialog
-    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+    implementation(libs.datetime)
 
+    implementation(libs.androidx.lifecycle.runtime.ktx.v240)
 }
 
 // Allow references to generated code
