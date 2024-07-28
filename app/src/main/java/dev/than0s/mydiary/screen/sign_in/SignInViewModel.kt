@@ -13,6 +13,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(private val emailAccountService: EmailAccountService) :
     MyDiaryViewModel() {
     val signInCred = mutableStateOf(SignInCred())
+
     fun onEmailChange(email: String) {
         signInCred.value = signInCred.value.copy(email = email)
     }
@@ -23,7 +24,7 @@ class SignInViewModel @Inject constructor(private val emailAccountService: Email
 
     fun onSignInClick(restartApp: () -> Unit) {
         viewModelScope.launch {
-            emailAccountService.linkAccount(
+            emailAccountService.authenticate(
                 signInCred.value.email,
                 signInCred.value.password
             )

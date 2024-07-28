@@ -19,27 +19,44 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.than0s.mydiary.screen.google.GoogleScreen
+import dev.than0s.mydiary.screen.sign_in.SignInCred
 
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), restartApp: () -> Unit) {
-    SignUpScreenContent(restartApp)
+    SignUpScreenContent(
+        signInCred = viewModel.signInCred.value,
+        onEmailChange = viewModel::onEmailChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onSignInClick = viewModel::onSignUpClick,
+        restartApp = restartApp,
+    )
 }
 
 @Composable
-private fun SignUpScreenContent(restartApp: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+private fun SignUpScreenContent(
+    signInCred: SignInCred,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: (() -> Unit) -> Unit,
+    restartApp: () -> Unit
+) {
     var showGoogleAuth by remember { mutableStateOf(false) }
     var passwordVisibility by remember { mutableStateOf(false) }
     Column {
-        TextField(value = email, onValueChange = { newValue ->
-            email = newValue
-        }, label = { Text(emailPlaceHolder) }, singleLine = true
+        TextField(
+            value = signInCred.email,
+            onValueChange = { newValue ->
+                onEmailChange(newValue)
+            },
+            label = {
+                Text(emailPlaceHolder)
+            },
+            singleLine = true
         )
         TextField(
-            value = password,
+            value = signInCred.password,
             onValueChange = { newValue ->
-                password = newValue
+                onPasswordChange(newValue)
             },
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             label = { Text(passwordPlaceHolder) },
@@ -56,7 +73,7 @@ private fun SignUpScreenContent(restartApp: () -> Unit) {
             singleLine = true
         )
         ElevatedButton(onClick = {
-
+            onSignInClick(restartApp)
         }) {
             Text(signUpLabel)
         }
@@ -70,14 +87,14 @@ private fun SignUpScreenContent(restartApp: () -> Unit) {
         }
     }
     if (showGoogleAuth) {
-        GoogleScreen(restartApp = restartApp, isSignIn = false)
+        GoogleScreen(restartApp = restartApp, isSignIn = true)
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreenContent({})
+    SignUpScreenContent(SignInCred(), {}, {}, {}, {})
 }
 
 const val emailPlaceHolder = "Email"

@@ -44,6 +44,7 @@ import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.settings.Settings
 import dev.than0s.mydiary.screen.sign_in.SignInScreen
+import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
 
 
@@ -113,7 +114,7 @@ private fun Graph(navController: NavHostController, appBarTitle: MutableState<St
             )
         }
         composable(route = SIGN_UP_SCREEN) {
-            SignInScreen(
+            SignUpScreen(
                 restartApp = navController::restartApp
             )
         }
