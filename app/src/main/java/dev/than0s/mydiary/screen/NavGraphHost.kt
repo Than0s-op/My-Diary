@@ -2,7 +2,13 @@ package dev.than0s.mydiary.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Note
+import androidx.compose.material.icons.automirrored.filled.Notes
+import androidx.compose.material.icons.automirrored.outlined.Note
+import androidx.compose.material.icons.automirrored.outlined.Notes
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -123,24 +130,44 @@ private fun Graph(navController: NavHostController, appBarTitle: MutableState<St
     }
 }
 
+data class NavigationBarItem(
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+)
+
 @Composable
-private fun NavigationBar(navController: NavController) {
+private fun NavigationBar(navController: NavHostController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf(
-        Pair(DIARY_SCREEN, Icons.AutoMirrored.Rounded.MenuBook),
-        Pair(SETTING_SCREEN, Icons.Rounded.Settings)
+        NavigationBarItem(
+            DIARY_SCREEN,
+            Icons.AutoMirrored.Filled.Note,
+            Icons.AutoMirrored.Outlined.Note
+        ),
+        NavigationBarItem(
+            SETTING_SCREEN,
+            Icons.Filled.Settings,
+            Icons.Outlined.Settings
+        ),
     )
 
     NavigationBar {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
-                icon = { Icon(item.second, contentDescription = item.first) },
-                label = { Text(item.first) },
+                icon = {
+                    Icon(
+                        if (index == selectedItem) {
+                            item.selectedIcon
+                        } else item.unselectedIcon,
+                        contentDescription = item.title
+                    )
+                },
+                label = { Text(item.title) },
                 selected = selectedItem == index,
                 onClick = {
                     selectedItem = index
-                    navController.popBackStack()
-                    navController.navigate(route = item.first)
+                    navController.popAndOpen(item.title)
                 },
             )
         }
@@ -166,6 +193,7 @@ private fun NavHostController.restartApp() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(text: MutableState<String>) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -173,7 +201,8 @@ fun AppBar(text: MutableState<String>) {
         ),
         title = {
             Text(text = text.value)
-        }
+        },
+        scrollBehavior = scrollBehavior
     )
 }
 
