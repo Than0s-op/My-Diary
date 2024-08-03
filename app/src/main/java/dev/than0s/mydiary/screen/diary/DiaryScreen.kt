@@ -39,8 +39,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.R
+import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
-import dev.than0s.mydiary.common.sentimentList
 import java.util.Calendar
 import java.util.Date
 
@@ -93,7 +93,7 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
         ) {
 
             Image(
-                painter = painterResource(R.drawable.emoji_1),
+                painter = painterResource(emojiList[note.emoji]),
                 contentDescription = "Reaction",
                 modifier = Modifier
                     .height(50.dp)

@@ -6,11 +6,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -19,17 +28,20 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import dev.than0s.mydiary.common.sentimentList
+import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.screen.diary.DateShower
+import dev.than0s.mydiary.screen.diary.Item
 import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
 import java.time.LocalDate
@@ -74,8 +86,8 @@ fun EditNoteContent(
                     }
                 )
                 Image(
-                    imageVector = sentimentList[note.emoji],
-                    contentDescription = sentimentList[note.emoji].name,
+                    painter = painterResource(id = emojiList[note.emoji]),
+                    contentDescription = "Reaction",
                     modifier = Modifier.clickable {
                         emojiDialogState.show()
                     }
@@ -143,18 +155,32 @@ fun DatePicker(dateDialogState: MaterialDialogState, onDateChange: (LocalDate) -
 
 @Composable
 fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> Unit) {
-    MaterialDialog(dialogState = emojiDialogState) {
-        Row {
-            sentimentList.forEachIndexed { index, image ->
-                Image(
-                    imageVector = image,
-                    contentDescription = image.name,
-                    modifier = Modifier.clickable {
-                        onEmojiChange(index)
-                        this@MaterialDialog.dialogState.hide()
+    MaterialDialog(
+        dialogState = emojiDialogState,
+        shape = MaterialTheme.shapes.large
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(10.dp)
+                .height(300.dp)
+        ) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(70.dp),
+                content = {
+                    items(emojiList.size) { index ->
+                        Image(
+                            painter = painterResource(id = emojiList[index]),
+                            contentDescription = "emoji",
+                            modifier = Modifier
+                                .clickable {
+                                    onEmojiChange(index)
+                                    this@MaterialDialog.dialogState.hide()
+                                }
+                                .height(50.dp)
+                                .width(50.dp)
+                        )
                     }
-                )
-            }
+                })
         }
     }
 }
@@ -162,5 +188,11 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
 @Preview(showSystemUi = true)
 @Composable
 fun EditNoteScreenPreview() {
-    EditNoteContent(note = Note(), onTitleChange = {}, onDescriptionChange = {}, onDoneClick = {}, onDateChange = {}, onEmojiChange = {})
+    EditNoteContent(
+        note = Note(userId = "0"),
+        onTitleChange = {},
+        onDescriptionChange = {},
+        onDoneClick = {},
+        onDateChange = {},
+        onEmojiChange = {})
 }

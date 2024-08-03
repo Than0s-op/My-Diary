@@ -10,6 +10,6 @@ data class Note(
     @ServerTimestamp val date: Date = Date(),
     val userId: String = FirebaseAuth.getInstance().currentUser!!.uid,
     val title: String = "",
-    val emoji: Int = 2,
+    val emoji: Int = 0,
     val description: String = "",
 )

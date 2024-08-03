@@ -44,8 +44,8 @@ class EditNoteViewModel @Inject constructor(
         note.value = note.value.copy(date = date)
     }
 
-    fun onEmojiChange(emoji: Int) {
-        note.value = note.value.copy(emoji = emoji)
+    fun onEmojiChange(index: Int) {
+        note.value = note.value.copy(emoji = index)
     }
 
     fun onDoneClick(popUpScreen: () -> Unit) {
