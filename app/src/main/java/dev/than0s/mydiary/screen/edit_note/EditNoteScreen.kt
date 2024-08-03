@@ -2,6 +2,7 @@ package dev.than0s.mydiary.screen.edit_note
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,6 +18,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,11 +28,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -40,11 +46,12 @@ import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dev.than0s.mydiary.common.emojiList
-import dev.than0s.mydiary.screen.diary.DateShower
+import dev.than0s.mydiary.common.monthNames
 import dev.than0s.mydiary.screen.diary.Item
 import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
 import java.time.LocalDate
+import java.util.Calendar
 
 @Composable
 fun EditNote(viewModel: EditNoteViewModel = hiltViewModel(), popUpScreen: () -> Unit) {
@@ -79,18 +86,32 @@ fun EditNoteContent(
             modifier = Modifier
                 .padding(paddingValue)
         ) {
-            Column {
-                DateShower(calendar = getCalendar(note.date),
-                    modifier = Modifier.clickable {
-                        dateDialogState.show()
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.padding(horizontal = 15.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    FilledTonalButton(
+                        onClick = { dateDialogState.show() }
+                    ) {
+                        DateShower(
+                            calendar = getCalendar(note.date),
+                        )
                     }
-                )
+                }
                 Image(
                     painter = painterResource(id = emojiList[note.emoji]),
                     contentDescription = "Reaction",
-                    modifier = Modifier.clickable {
-                        emojiDialogState.show()
-                    }
+                    modifier = Modifier
+                        .clickable {
+                            emojiDialogState.show()
+                        }
+                        .height(50.dp)
+                        .width(50.dp)
                 )
                 TextField(
                     value = note.title,
@@ -101,7 +122,7 @@ fun EditNoteContent(
                 )
                 TextField(
                     value = note.description,
-                    placeHolder = "Diary entry",
+                    placeHolder = "Write Here...",
                     onValueChange = onDescriptionChange,
                     modifier = Modifier
                         .fillMaxHeight()
@@ -120,11 +141,12 @@ fun FloatingButton(onDoneClick: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextField(
     value: String,
     placeHolder: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     fontSize: TextUnit,
     onValueChange: (String) -> Unit
 ) {
@@ -132,12 +154,12 @@ fun TextField(
         value = value,
         modifier = modifier,
         onValueChange = { newValue -> onValueChange(newValue) },
-        placeholder = { Text(placeHolder, fontSize = fontSize) },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
+        placeholder = { Text(placeHolder, fontSize = fontSize, color = Color.Gray) },
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
         ),
-        textStyle = TextStyle.Default.copy(fontSize = fontSize)
+        textStyle = TextStyle.Default.copy(fontSize = fontSize),
     )
 }
 
@@ -181,6 +203,29 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
                         )
                     }
                 })
+        }
+    }
+}
+
+@Composable
+fun DateShower(calendar: Calendar, modifier: Modifier = Modifier) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        calendar.let {
+            Text(
+                text = it.get(Calendar.DAY_OF_MONTH).toString(),
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray
+            )
+            Text(
+                text = monthNames[it.get(Calendar.MONTH)].substring(0, 3),
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray
+            )
+            Text(
+                text = it.get(Calendar.YEAR).toString(),
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray
+            )
         }
     }
 }
