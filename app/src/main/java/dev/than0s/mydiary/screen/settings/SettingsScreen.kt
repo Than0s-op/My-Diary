@@ -13,10 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.than0s.mydiary.AppBar
 import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
+import dev.than0s.mydiary.DIARY_SCREEN
+import dev.than0s.mydiary.SETTING_SCREEN
 import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_IN_SCREEN
 import dev.than0s.mydiary.SIGN_OUT
@@ -49,6 +52,9 @@ fun SettingsContent(
     }
     ScaffoldState.bottomBarState = remember {
         BottomBar(selected = 1)
+    }
+    ScaffoldState.topBarState = remember {
+        AppBar(title = SETTING_SCREEN)
     }
     Column {
         if (isAnonymous) {

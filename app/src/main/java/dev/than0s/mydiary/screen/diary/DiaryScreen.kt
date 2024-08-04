@@ -35,8 +35,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.than0s.mydiary.AppBar
 import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
+import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
@@ -65,6 +67,9 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
     }
     ScaffoldState.bottomBarState = remember {
         BottomBar(selected = 0)
+    }
+    ScaffoldState.topBarState = remember{
+        AppBar(title = DIARY_SCREEN)
     }
 
     LazyColumn(

@@ -1,5 +1,6 @@
 package dev.than0s.mydiary.screen
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.material.icons.automirrored.outlined.Notes
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -69,17 +71,23 @@ private fun NavGraphHostContent() {
     AppState.snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        topBar = { AppBar(appBarTitle) },
+        topBar = {
+            ScaffoldState.topBarState.let {
+                AppBar(it.title, it.content)
+            }
+        },
         bottomBar = {
             if (ScaffoldState.bottomBarState.visibility) {
                 NavigationBar(navController = navController)
             }
         },
-        snackbarHost = { SnackbarHost(hostState = AppState.snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(hostState = AppState.snackbarHostState)
+        },
         floatingActionButton = {
             ScaffoldState.floatingActionButtonState.let {
                 if (it.visibility) {
-                    FloatingActionButton(onClick = it.onClick!!, content = it.content!!)
+                    FloatingActionButton(onClick = it.onClick, content = it.content)
                 }
             }
         }
@@ -203,17 +211,16 @@ private fun NavHostController.restartApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(text: MutableState<String>) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+fun AppBar(title: String, action: @Composable (RowScope.() -> Unit)) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Text(text = text.value)
+            Text(text = title)
         },
-        scrollBehavior = scrollBehavior
+        actions = action
     )
 }
 

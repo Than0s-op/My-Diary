@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,8 +42,11 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import dev.than0s.mydiary.AppBar
 import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
+import dev.than0s.mydiary.DIARY_SCREEN
+import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
@@ -87,6 +91,20 @@ fun EditNoteContent(
     }
     ScaffoldState.bottomBarState = remember {
         BottomBar(visibility = false)
+    }
+    ScaffoldState.topBarState = remember {
+        AppBar(
+            title = EDIT_NOTE_SCREEN,
+            content = {
+                Icon(
+                    imageVector = Icons.Rounded.Delete,
+                    contentDescription = "Delete",
+                    modifier = Modifier.clickable {
+
+                    }
+                )
+            }
+        )
     }
 
     DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)
