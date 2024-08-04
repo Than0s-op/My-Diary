@@ -8,16 +8,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
 import dev.than0s.mydiary.SIGN_IN
 import dev.than0s.mydiary.SIGN_IN_SCREEN
 import dev.than0s.mydiary.SIGN_OUT
 import dev.than0s.mydiary.SIGN_UP_SCREEN
+import dev.than0s.mydiary.ScaffoldState
 
 @Composable
 fun Settings(
@@ -40,6 +43,9 @@ fun SettingsContent(
     onDeleteAccountClick: () -> Unit,
     openScreen: (String) -> Unit,
 ) {
+    ScaffoldState.FloatingActionButton.state = remember {
+        ButtonActions(visibility = false)
+    }
     Column {
         if (isAnonymous) {
             Option(CREATE_ACCOUNT) {

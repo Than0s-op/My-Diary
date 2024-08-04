@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -53,6 +54,7 @@ import dev.than0s.mydiary.screen.sign_in.SignInScreen
 import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
 import dev.than0s.mydiary.AppState
+import dev.than0s.mydiary.ScaffoldState
 
 
 @Composable
@@ -69,7 +71,14 @@ private fun NavGraphHostContent() {
     Scaffold(
         topBar = { AppBar(appBarTitle) },
         bottomBar = { NavigationBar(navController = navController) },
-        snackbarHost = { SnackbarHost(hostState = AppState.snackbarHostState) }
+        snackbarHost = { SnackbarHost(hostState = AppState.snackbarHostState) },
+        floatingActionButton = {
+            ScaffoldState.FloatingActionButton.state.let {
+                if (it.visibility) {
+                    FloatingActionButton(onClick = it.onClick!!, content = it.content!!)
+                }
+            }
+        }
     ) { paddingValue ->
         Surface(
             modifier = Modifier

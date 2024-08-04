@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,7 +22,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -37,8 +35,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
-import dev.than0s.mydiary.R
+import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
 import java.util.Calendar
@@ -52,21 +51,27 @@ fun DiaryScreen(viewModel: DiaryViewModel = hiltViewModel(), openScreen: (String
 
 @Composable
 fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
-    Scaffold(
-        floatingActionButton = { FloatingButton(openScreen) },
-    ) { paddingValue ->
-        LazyColumn(
-            content = {
-                items(items = list, key = { it.id }) { item ->
-                    Item(note = item, openScreen = openScreen)
-                }
+    ScaffoldState.FloatingActionButton.state = remember {
+        ButtonActions(
+            onClick = {
+                openScreen("$EDIT_NOTE_SCREEN/0")
             },
-            modifier = Modifier
-                .padding(paddingValue)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            content = {
+                Icon(Icons.Filled.Add, "Floating action button.")
+            },
+            visibility = true
         )
     }
+    LazyColumn(
+        content = {
+            items(items = list, key = { it.id }) { item ->
+                Item(note = item, openScreen = openScreen)
+            }
+        },
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
+    )
 }
 
 @Composable
