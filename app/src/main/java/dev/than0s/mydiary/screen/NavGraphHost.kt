@@ -70,10 +70,14 @@ private fun NavGraphHostContent() {
 
     Scaffold(
         topBar = { AppBar(appBarTitle) },
-        bottomBar = { NavigationBar(navController = navController) },
+        bottomBar = {
+            if (ScaffoldState.bottomBarState.visibility) {
+                NavigationBar(navController = navController)
+            }
+        },
         snackbarHost = { SnackbarHost(hostState = AppState.snackbarHostState) },
         floatingActionButton = {
-            ScaffoldState.FloatingActionButton.state.let {
+            ScaffoldState.floatingActionButtonState.let {
                 if (it.visibility) {
                     FloatingActionButton(onClick = it.onClick!!, content = it.content!!)
                 }

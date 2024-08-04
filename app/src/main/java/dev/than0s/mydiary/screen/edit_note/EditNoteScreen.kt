@@ -41,6 +41,7 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
@@ -75,7 +76,7 @@ fun EditNoteContent(
     val dateDialogState = rememberMaterialDialogState()
     val emojiDialogState = rememberMaterialDialogState()
 
-    ScaffoldState.FloatingActionButton.state = remember {
+    ScaffoldState.floatingActionButtonState = remember {
         ButtonActions(
             onClick = { onDoneClick() },
             content = {
@@ -83,6 +84,9 @@ fun EditNoteContent(
             },
             visibility = true
         )
+    }
+    ScaffoldState.bottomBarState = remember {
+        BottomBar(false)
     }
 
     DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)

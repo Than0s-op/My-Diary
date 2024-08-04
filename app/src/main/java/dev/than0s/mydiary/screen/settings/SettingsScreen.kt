@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.CREATE_ACCOUNT
 import dev.than0s.mydiary.DELETE_ACCOUNT
@@ -43,8 +44,11 @@ fun SettingsContent(
     onDeleteAccountClick: () -> Unit,
     openScreen: (String) -> Unit,
 ) {
-    ScaffoldState.FloatingActionButton.state = remember {
+    ScaffoldState.floatingActionButtonState = remember {
         ButtonActions(visibility = false)
+    }
+    ScaffoldState.bottomBarState = remember {
+        BottomBar()
     }
     Column {
         if (isAnonymous) {

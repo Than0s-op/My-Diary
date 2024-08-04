@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
@@ -51,7 +52,7 @@ fun DiaryScreen(viewModel: DiaryViewModel = hiltViewModel(), openScreen: (String
 
 @Composable
 fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
-    ScaffoldState.FloatingActionButton.state = remember {
+    ScaffoldState.floatingActionButtonState = remember {
         ButtonActions(
             onClick = {
                 openScreen("$EDIT_NOTE_SCREEN/0")
@@ -61,6 +62,9 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
             },
             visibility = true
         )
+    }
+    ScaffoldState.bottomBarState = remember {
+        BottomBar()
     }
     LazyColumn(
         content = {
