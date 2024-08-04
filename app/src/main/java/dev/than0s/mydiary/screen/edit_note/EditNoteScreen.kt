@@ -26,7 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +51,7 @@ import dev.than0s.mydiary.ButtonActions
 import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
+import dev.than0s.mydiary.common.ShowAlertDialog
 import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
 import dev.than0s.mydiary.screen.diary.Note
@@ -64,7 +68,8 @@ fun EditNote(viewModel: EditNoteViewModel = hiltViewModel(), popUpScreen: () -> 
         onDescriptionChange = viewModel::onDescriptionChange,
         onDoneClick = { viewModel.onDoneClick(popUpScreen) },
         onDateChange = viewModel::onDateChange,
-        onEmojiChange = viewModel::onEmojiChange
+        onEmojiChange = viewModel::onEmojiChange,
+        onDeleteClick = { viewModel.onDeleteClick(noteId = note.id, popUpScreen) }
     )
 }
 
@@ -76,9 +81,27 @@ fun EditNoteContent(
     onDoneClick: () -> Unit,
     onDateChange: (LocalDate) -> Unit,
     onEmojiChange: (Int) -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     val dateDialogState = rememberMaterialDialogState()
     val emojiDialogState = rememberMaterialDialogState()
+    var deleteDialogShow by remember {
+        mutableStateOf(false)
+    }
+
+    if (deleteDialogShow) {
+        ShowAlertDialog(
+            title = "Delete",
+            message = "What?",
+            onDismiss = {
+                deleteDialogShow = false
+            },
+            onConformation = {
+                onDeleteClick()
+                deleteDialogShow = false
+            }
+        )
+    }
 
     ScaffoldState.floatingActionButtonState = remember {
         ButtonActions(
@@ -100,7 +123,7 @@ fun EditNoteContent(
                     imageVector = Icons.Rounded.Delete,
                     contentDescription = "Delete",
                     modifier = Modifier.clickable {
-
+                        deleteDialogShow = true
                     }
                 )
             }
@@ -260,5 +283,7 @@ fun EditNoteScreenPreview() {
         onDescriptionChange = {},
         onDoneClick = {},
         onDateChange = {},
-        onEmojiChange = {})
+        onEmojiChange = {},
+        onDeleteClick = {}
+    )
 }

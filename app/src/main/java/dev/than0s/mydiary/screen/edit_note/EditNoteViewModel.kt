@@ -2,7 +2,9 @@ package dev.than0s.mydiary.screen.edit_note
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.than0s.mydiary.AppState
 import dev.than0s.mydiary.ID
 import dev.than0s.mydiary.model.service.StorageService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
@@ -48,14 +50,23 @@ class EditNoteViewModel @Inject constructor(
         note.value = note.value.copy(emoji = index)
     }
 
+    fun onDeleteClick(noteId: String, popUpScreen: () -> Unit) {
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
+            storageService.delete(noteId)
+            AppState.snackbarHostState.showSnackbar("Deleted Successfully")
+            popUpScreen()
+        }
+    }
+
     fun onDoneClick(popUpScreen: () -> Unit) {
-        launchCatching(errorMassage = {}) {
+        launchCatching(AppState.showSnackbar(viewModelScope)) {
             val editedNote = note.value
             if (editedNote.id.isBlank()) {
                 storageService.save(editedNote)
             } else {
                 storageService.update(editedNote)
             }
+            AppState.snackbarHostState.showSnackbar("Save Successfully")
             popUpScreen()
         }
     }

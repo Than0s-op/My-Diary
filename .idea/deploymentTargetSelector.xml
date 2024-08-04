@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-08-03T07:50:01.486681406Z">
+        <DropdownSelection timestamp="2024-08-04T10:38:09.627451713Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/home/than0s/.android/avd/Than0s_API_VanillaIceCream.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=RZ8M92VGYJW" />
             </handle>
           </Target>
         </DropdownSelection>
