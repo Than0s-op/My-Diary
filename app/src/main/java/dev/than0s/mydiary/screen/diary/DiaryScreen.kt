@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -43,6 +45,7 @@ import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
+import dev.than0s.mydiary.ui.theme.spacing
 import java.util.Calendar
 import java.util.Date
 
@@ -68,7 +71,7 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
     ScaffoldState.bottomBarState = remember {
         BottomBar(selected = 0)
     }
-    ScaffoldState.topBarState = remember{
+    ScaffoldState.topBarState = remember {
         AppBar(title = DIARY_SCREEN)
     }
 
@@ -80,7 +83,7 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
         },
         modifier = Modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     )
 }
 
@@ -91,7 +94,7 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
             defaultElevation = 6.dp
         ),
         modifier = Modifier
-            .padding(horizontal = 10.dp)
+            .padding(horizontal = MaterialTheme.spacing.small)
             .clickable(interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(bounded = true), onClick = {
                     openScreen("$EDIT_NOTE_SCREEN/${note.id}")
@@ -102,8 +105,11 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
                 .height(IntrinsicSize.Min) //intrinsic measurements
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(horizontal = 10.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                .padding(
+                    horizontal = MaterialTheme.spacing.small,
+                    vertical = MaterialTheme.spacing.extraSmall
+                ),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
@@ -111,12 +117,14 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
                 painter = painterResource(emojiList[note.emoji]),
                 contentDescription = "Reaction",
                 modifier = Modifier
-                    .height(50.dp)
-                    .width(50.dp)
+                    .weight(0.5f)
+                    .fillMaxHeight()
+                    .padding(vertical = MaterialTheme.spacing.extraSmall)
             )
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
+                modifier = Modifier.weight(2.0f)
             ) {
                 DateShower(calendar = getCalendar(note.date))
                 Text(
@@ -132,7 +140,10 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
 
 @Composable
 fun DateShower(calendar: Calendar, modifier: Modifier = Modifier) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)
+    ) {
         calendar.let {
             Text(
                 text = it.get(Calendar.DAY_OF_MONTH).toString(),
