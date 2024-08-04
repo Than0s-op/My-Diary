@@ -48,7 +48,7 @@ fun SettingsContent(
         ButtonActions(visibility = false)
     }
     ScaffoldState.bottomBarState = remember {
-        BottomBar()
+        BottomBar(selected = 1)
     }
     Column {
         if (isAnonymous) {

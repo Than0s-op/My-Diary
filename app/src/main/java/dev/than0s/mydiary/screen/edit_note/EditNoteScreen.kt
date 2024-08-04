@@ -86,7 +86,7 @@ fun EditNoteContent(
         )
     }
     ScaffoldState.bottomBarState = remember {
-        BottomBar(false)
+        BottomBar(visibility = false)
     }
 
     DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)

@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 
 object ScaffoldState {
     var floatingActionButtonState by mutableStateOf(ButtonActions())
-    var bottomBarState by mutableStateOf(BottomBar(false))
+    var bottomBarState by mutableStateOf(BottomBar(visibility = false))
 }
 
 data class ButtonActions(
@@ -17,5 +17,6 @@ data class ButtonActions(
 )
 
 data class BottomBar(
+    val selected: Int = 0,
     val visibility: Boolean = true
 )

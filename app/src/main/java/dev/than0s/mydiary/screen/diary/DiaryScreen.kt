@@ -64,8 +64,9 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
         )
     }
     ScaffoldState.bottomBarState = remember {
-        BottomBar()
+        BottomBar(selected = 0)
     }
+
     LazyColumn(
         content = {
             items(items = list, key = { it.id }) { item ->
@@ -121,13 +122,6 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun FloatingButton(openScreen: (String) -> Unit) {
-    FloatingActionButton(onClick = { openScreen("$EDIT_NOTE_SCREEN/0") }) {
-        Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
 

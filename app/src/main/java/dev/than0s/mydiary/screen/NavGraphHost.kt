@@ -151,7 +151,6 @@ data class NavigationBarItem(
 
 @Composable
 private fun NavigationBar(navController: NavHostController) {
-    var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf(
         NavigationBarItem(
             DIARY_SCREEN,
@@ -170,16 +169,15 @@ private fun NavigationBar(navController: NavHostController) {
             NavigationBarItem(
                 icon = {
                     Icon(
-                        if (index == selectedItem) {
+                        if (index == ScaffoldState.bottomBarState.selected) {
                             item.selectedIcon
                         } else item.unselectedIcon,
                         contentDescription = item.title
                     )
                 },
                 label = { Text(item.title) },
-                selected = selectedItem == index,
+                selected = ScaffoldState.bottomBarState.selected == index,
                 onClick = {
-                    selectedItem = index
                     navController.popAndOpen(item.title)
                 },
             )
