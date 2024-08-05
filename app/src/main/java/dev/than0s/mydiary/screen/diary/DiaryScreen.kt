@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,7 +20,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,7 +43,8 @@ import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
-import dev.than0s.mydiary.ui.theme.spacing
+import dev.than0s.mydiary.ui.elevation
+import dev.than0s.mydiary.ui.spacing
 import java.util.Calendar
 import java.util.Date
 
@@ -91,7 +90,7 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
 fun Item(note: Note, openScreen: (String) -> Unit) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
+            defaultElevation = MaterialTheme.elevation.medium
         ),
         modifier = Modifier
             .padding(horizontal = MaterialTheme.spacing.small)
@@ -119,7 +118,7 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
                 modifier = Modifier
                     .weight(0.5f)
                     .fillMaxHeight()
-                    .padding(vertical = MaterialTheme.spacing.extraSmall)
+                    .padding(vertical = MaterialTheme.spacing.small)
             )
 
             Column(

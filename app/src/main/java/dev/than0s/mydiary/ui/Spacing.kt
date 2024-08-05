@@ -1,4 +1,4 @@
-package dev.than0s.mydiary.ui.theme
+package dev.than0s.mydiary.ui
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

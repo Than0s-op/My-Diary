@@ -4,14 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Save
@@ -21,7 +25,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -33,6 +36,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +53,6 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dev.than0s.mydiary.AppBar
 import dev.than0s.mydiary.BottomBar
 import dev.than0s.mydiary.ButtonActions
-import dev.than0s.mydiary.DIARY_SCREEN
 import dev.than0s.mydiary.EDIT_NOTE_SCREEN
 import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.common.ShowAlertDialog
@@ -56,6 +60,8 @@ import dev.than0s.mydiary.common.emojiList
 import dev.than0s.mydiary.common.monthNames
 import dev.than0s.mydiary.screen.diary.Note
 import dev.than0s.mydiary.screen.diary.getCalendar
+import dev.than0s.mydiary.ui.spacing
+import dev.than0s.mydiary.ui.textSize
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -133,47 +139,53 @@ fun EditNoteContent(
     DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)
     EmojiPicker(emojiDialogState = emojiDialogState, onEmojiChange = onEmojiChange)
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(horizontal = 15.dp)
+        modifier = Modifier.padding(MaterialTheme.spacing.medium)
     ) {
         Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
+
+            Image(
+                painter = painterResource(id = emojiList[note.emoji]),
+                contentDescription = "Reaction",
+                modifier = Modifier
+                    .clickable {
+                        emojiDialogState.show()
+                    }
+                    .width(50.dp)
+                    .height(50.dp)
+            )
+
             FilledTonalButton(
-                onClick = { dateDialogState.show() }
+                onClick = { dateDialogState.show() },
+                shape = RoundedCornerShape(8.dp)
             ) {
                 DateShower(
                     calendar = getCalendar(note.date),
                 )
             }
         }
-        Image(
-            painter = painterResource(id = emojiList[note.emoji]),
-            contentDescription = "Reaction",
-            modifier = Modifier
-                .clickable {
-                    emojiDialogState.show()
-                }
-                .height(50.dp)
-                .width(50.dp)
-        )
         TextField(
             value = note.title,
             placeHolder = "Title",
             onValueChange = onTitleChange,
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 30.sp
+            fontSize = MaterialTheme.textSize.gigantic,
+            modifier = Modifier
+                .fillMaxWidth()
         )
         TextField(
             value = note.description,
             placeHolder = "Write Here...",
             onValueChange = onDescriptionChange,
+            fontSize = MaterialTheme.textSize.extraLarge,
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(),
-            fontSize = 20.sp
+                .fillMaxWidth()
+                .weight(1.0f),
         )
     }
 }
@@ -204,6 +216,7 @@ fun TextField(
             unfocusedIndicatorColor = Color.Transparent
         ),
         textStyle = TextStyle.Default.copy(fontSize = fontSize),
+        shape = RoundedCornerShape(16.dp),
     )
 }
 
@@ -227,7 +240,7 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
     ) {
         Card(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(MaterialTheme.spacing.small)
                 .height(300.dp)
         ) {
             LazyVerticalGrid(
@@ -253,7 +266,10 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
 
 @Composable
 fun DateShower(calendar: Calendar, modifier: Modifier = Modifier) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)
+    ) {
         calendar.let {
             Text(
                 text = it.get(Calendar.DAY_OF_MONTH).toString(),

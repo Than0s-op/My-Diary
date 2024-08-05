@@ -1,6 +1,5 @@
- package dev.than0s.mydiary.ui.theme
+package dev.than0s.mydiary.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +10,12 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import dev.than0s.mydiary.ui.Elevation
+import dev.than0s.mydiary.ui.LocalElevation
+import dev.than0s.mydiary.ui.LocalSpacing
+import dev.than0s.mydiary.ui.LocalTextSize
+import dev.than0s.mydiary.ui.Spacing
+import dev.than0s.mydiary.ui.TextSize
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -51,7 +56,7 @@ fun MyDiaryTheme(
         else -> LightColorScheme
     }
 
-    CompositionLocalProvider(LocalSpacing provides Spacing()){
+    CompositionLocalProvider(LocalSpacing provides Spacing(), LocalElevation provides Elevation(),LocalTextSize provides TextSize()) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
