@@ -1,12 +1,10 @@
 package dev.than0s.mydiary.screen.sign_in
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.model.service.EmailAccountService
 import dev.than0s.mydiary.screen.MyDiaryViewModel
-import dev.than0s.mydiary.AppState
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,16 +21,16 @@ class SignInViewModel @Inject constructor(private val emailAccountService: Email
     }
 
     fun onSignInClick(restartApp: () -> Unit) {
-        launchCatching(AppState.showSnackbar(viewModelScope)) {
+        launchCatching(ScaffoldState::showSnackBar) {
             try {
                 emailAccountService.authenticate(
                     signInCred.value.email,
                     signInCred.value.password
                 )
-                AppState.snackbarHostState.showSnackbar("Sign In Successfully")
+                ScaffoldState.showSnackBar("Sign In Successfully")
                 restartApp()
             } catch (e: Exception) {
-                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+                ScaffoldState.showSnackBar(e.message ?: "Unknown Error")
             }
         }
     }

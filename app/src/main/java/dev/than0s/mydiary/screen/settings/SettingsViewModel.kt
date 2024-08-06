@@ -1,11 +1,9 @@
 package dev.than0s.mydiary.screen.settings
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.model.service.imple.GoogleAccountServiceImple
 import dev.than0s.mydiary.screen.MyDiaryViewModel
-import dev.than0s.mydiary.AppState
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,24 +15,24 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onDeleteAccountMyClick(restartApp: () -> Unit) {
-        launchCatching(AppState.showSnackbar(viewModelScope)) {
+        launchCatching(ScaffoldState::showSnackBar) {
             try {
                 accountService.deleteAccount()
                 restartApp()
             } catch (e: Exception) {
-                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+                ScaffoldState.showSnackBar(e.message ?: "Unknown Error")
             }
         }
     }
 
     fun onSignOutClick(restartApp: () -> Unit) {
-        launchCatching(AppState.showSnackbar(viewModelScope)) {
+        launchCatching(ScaffoldState::showSnackBar) {
             try {
                 accountService.signOut()
-                AppState.snackbarHostState.showSnackbar("Sign Out Successfully")
+                ScaffoldState.showSnackBar("Sign Out Successfully")
                 restartApp()
             } catch (e: Exception) {
-                AppState.showSnackbar(viewModelScope).invoke(e.message ?: "Unknown Error")
+                ScaffoldState.showSnackBar(e.message ?: "Unknown Error")
             }
         }
     }

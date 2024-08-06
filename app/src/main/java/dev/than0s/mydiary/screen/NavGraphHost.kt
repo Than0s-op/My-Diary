@@ -4,14 +4,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
-import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.automirrored.outlined.Note
-import androidx.compose.material.icons.automirrored.outlined.Notes
-import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,16 +21,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -49,14 +42,14 @@ import dev.than0s.mydiary.SETTING_SCREEN
 import dev.than0s.mydiary.SIGN_IN_SCREEN
 import dev.than0s.mydiary.SIGN_UP_SCREEN
 import dev.than0s.mydiary.SPLASH_SCREEN
+import dev.than0s.mydiary.ScaffoldState
 import dev.than0s.mydiary.screen.diary.DiaryScreen
 import dev.than0s.mydiary.screen.edit_note.EditNote
 import dev.than0s.mydiary.screen.settings.Settings
 import dev.than0s.mydiary.screen.sign_in.SignInScreen
 import dev.than0s.mydiary.screen.sign_up.SignUpScreen
 import dev.than0s.mydiary.screen.splash.SplashScreen
-import dev.than0s.mydiary.AppState
-import dev.than0s.mydiary.ScaffoldState
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -68,7 +61,14 @@ fun NavGraphHost() {
 private fun NavGraphHostContent() {
     val navController = rememberNavController()
     val appBarTitle = remember { mutableStateOf(DIARY_SCREEN) }
-    AppState.snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = ScaffoldState.snackBarMessage) {
+        coroutineScope.launch {
+            snackbarHostState.showSnackbar(ScaffoldState.snackBarMessage)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -82,7 +82,7 @@ private fun NavGraphHostContent() {
             }
         },
         snackbarHost = {
-            SnackbarHost(hostState = AppState.snackbarHostState)
+            SnackbarHost(hostState = snackbarHostState)
         },
         floatingActionButton = {
             ScaffoldState.floatingActionButtonState.let {
@@ -187,7 +187,7 @@ private fun NavigationBar(navController: NavHostController) {
                 selected = ScaffoldState.bottomBarState.selected == index,
                 onClick = {
                     // it should not selected index
-                    if(index != ScaffoldState.bottomBarState.selected){
+                    if (index != ScaffoldState.bottomBarState.selected) {
                         navController.popAndOpen(item.title)
                     }
                 },
