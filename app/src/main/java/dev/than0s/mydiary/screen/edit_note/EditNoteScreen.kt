@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -157,8 +158,7 @@ fun EditNoteContent(
                     .clickable {
                         emojiDialogState.show()
                     }
-                    .width(50.dp)
-                    .height(50.dp)
+                    .size(50.dp)
             )
 
             FilledTonalButton(
@@ -187,13 +187,6 @@ fun EditNoteContent(
                 .fillMaxWidth()
                 .weight(1.0f),
         )
-    }
-}
-
-@Composable
-fun FloatingButton(onDoneClick: () -> Unit) {
-    FloatingActionButton(onClick = { onDoneClick() }) {
-        Icon(Icons.Rounded.Save, "Floating action button.")
     }
 }
 
@@ -255,8 +248,7 @@ fun EmojiPicker(emojiDialogState: MaterialDialogState, onEmojiChange: (Int) -> U
                                     onEmojiChange(index)
                                     this@MaterialDialog.dialogState.hide()
                                 }
-                                .height(50.dp)
-                                .width(50.dp)
+                                .size(50.dp)
                         )
                     }
                 })
