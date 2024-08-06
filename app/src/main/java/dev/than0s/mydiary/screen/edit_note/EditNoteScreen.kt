@@ -140,13 +140,13 @@ fun EditNoteContent(
     DatePicker(dateDialogState = dateDialogState, onDateChange = onDateChange)
     EmojiPicker(emojiDialogState = emojiDialogState, onEmojiChange = onEmojiChange)
     Column(
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.padding(MaterialTheme.spacing.medium)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -158,7 +158,7 @@ fun EditNoteContent(
                     .clickable {
                         emojiDialogState.show()
                     }
-                    .size(50.dp)
+                    .size(80.dp)
             )
 
             FilledTonalButton(

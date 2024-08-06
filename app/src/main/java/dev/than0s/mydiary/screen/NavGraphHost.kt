@@ -186,7 +186,10 @@ private fun NavigationBar(navController: NavHostController) {
                 label = { Text(item.title) },
                 selected = ScaffoldState.bottomBarState.selected == index,
                 onClick = {
-                    navController.popAndOpen(item.title)
+                    // it should not selected index
+                    if(index != ScaffoldState.bottomBarState.selected){
+                        navController.popAndOpen(item.title)
+                    }
                 },
             )
         }

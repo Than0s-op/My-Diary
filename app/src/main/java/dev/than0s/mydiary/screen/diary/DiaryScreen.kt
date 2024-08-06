@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -81,7 +82,8 @@ fun DiaryScreenContent(list: List<Note>, openScreen: (String) -> Unit) {
             }
         },
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.medium),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
     )
 }
@@ -93,7 +95,6 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
             defaultElevation = MaterialTheme.elevation.medium
         ),
         modifier = Modifier
-            .padding(horizontal = MaterialTheme.spacing.small)
             .clickable(interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(bounded = true), onClick = {
                     openScreen("$EDIT_NOTE_SCREEN/${note.id}")
@@ -101,7 +102,6 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
     ) {
         Row(
             modifier = Modifier
-                .height(IntrinsicSize.Min) //intrinsic measurements
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(
@@ -116,14 +116,12 @@ fun Item(note: Note, openScreen: (String) -> Unit) {
                 painter = painterResource(emojiList[note.emoji]),
                 contentDescription = "Reaction",
                 modifier = Modifier
-                    .weight(0.5f)
-                    .fillMaxHeight()
-                    .padding(vertical = MaterialTheme.spacing.small)
+                    .size(60.dp)
             )
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall),
-                modifier = Modifier.weight(2.0f)
+                modifier = Modifier.weight(1.0f)
             ) {
                 DateShower(calendar = getCalendar(note.date))
                 Text(
