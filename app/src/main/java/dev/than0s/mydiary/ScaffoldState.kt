@@ -10,7 +10,7 @@ object ScaffoldState {
     var floatingActionButtonState by mutableStateOf(ButtonActions())
     var bottomBarState by mutableStateOf(BottomBar(visibility = false))
     var topBarState by mutableStateOf(AppBar())
-    var snackBarMessage by mutableStateOf("")
+    var snackBarMessage by mutableStateOf("Welcome")
         private set
 
     fun showSnackBar(message: String) {
